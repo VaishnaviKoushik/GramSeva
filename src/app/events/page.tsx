@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
@@ -125,20 +124,20 @@ export default function EventsPage() {
           </p>
         </div>
 
-        <Tabs defaultValue={availableEvents[0]} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-                 {Object.keys(submissionsByEvent).map((eventName) => (
-                    <TabsTrigger key={eventName} value={eventName}>{eventName}</TabsTrigger>
-                ))}
-            </TabsList>
-
-            {Object.entries(submissionsByEvent).map(([eventName, eventSubmissions]) => {
+        <div className="max-w-4xl mx-auto space-y-12">
+            {availableEvents.map((eventName) => {
+                const eventSubmissions = submissionsByEvent[eventName] || [];
                 const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
+
                 return (
-                    <TabsContent key={eventName} value={eventName}>
-                        <div className="text-center mb-8">
-                            <Button onClick={() => setFormVisibleForEvent(eventName)}>Join Now</Button>
+                    <div key={eventName}>
+                        <div className="flex justify-between items-center mb-6">
+                             <h2 className="text-3xl font-bold text-primary">{eventName}</h2>
+                             <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
+                                {formVisibleForEvent === eventName ? 'Close' : 'Join'}
+                             </Button>
                         </div>
+                        
                         {formVisibleForEvent === eventName && (
                             <div className="max-w-2xl mx-auto mb-12">
                                 <Card>
@@ -170,6 +169,7 @@ export default function EventsPage() {
                                 </Card>
                             </div>
                         )}
+
                         <div className="space-y-10 mt-8">
                             {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
                                 <div key={panchayatName}>
@@ -189,11 +189,12 @@ export default function EventsPage() {
                                 </div>
                                 </div>
                             ))}
+                             {eventSubmissions.length === 0 && <p className="text-muted-foreground">No submissions for this event yet.</p>}
                         </div>
-                    </TabsContent>
+                    </div>
                 );
             })}
-        </Tabs>
+        </div>
       </main>
 
        <footer className="text-center p-2.5 bg-primary text-primary-foreground mt-5">
@@ -202,3 +203,5 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    
