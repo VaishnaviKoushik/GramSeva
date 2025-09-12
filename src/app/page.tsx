@@ -74,7 +74,7 @@ function Carousel() {
   }, []);
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-96">
+    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[450px]">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -85,8 +85,8 @@ function Carousel() {
                 src={img.imageUrl}
                 alt={img.description}
                 width={1000}
-                height={384}
-                className="object-cover w-full h-96"
+                height={450}
+                className="object-cover w-full h-[450px]"
                 data-ai-hint={img.imageHint}
               />
           </div>
@@ -295,15 +295,15 @@ export default function Home() {
   
   return (
     <div className="bg-background min-h-screen">
-      <header className="bg-primary text-primary-foreground flex justify-between items-center p-4 px-10">
-        <h1 className="text-2xl font-bold">GramSeva</h1>
+      <header className="bg-card text-card-foreground flex justify-between items-center p-4 px-10 border-b">
+        <h1 className="text-2xl font-bold text-primary">GramSeva</h1>
         <nav className="flex items-center space-x-4">
-          <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('home')}>Home</Button>
-          <Button variant="link" className="text-primary-foreground text-base" asChild>
+          <Button variant="link" className="text-foreground text-base" onClick={() => setActiveSection('home')}>Home</Button>
+          <Button variant="link" className="text-foreground text-base" asChild>
             <Link href="/events">Events</Link>
           </Button>
-          <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('issues')}>Issues</Button>
-          <Button variant="link" className="text-primary-foreground text-base" asChild>
+          <Button variant="link" className="text-foreground text-base" onClick={() => setActiveSection('issues')}>Issues</Button>
+          <Button variant="link" className="text-foreground text-base" asChild>
             <Link href="/login">Login</Link>
           </Button>
         </nav>
