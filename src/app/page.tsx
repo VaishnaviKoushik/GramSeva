@@ -16,7 +16,7 @@ import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 
-type Section = 'home' | 'events' | 'issues';
+type Section = 'home' | 'issues';
 
 const carouselImages = PlaceHolderImages.filter(p => p.id.startsWith("carousel_"));
 
@@ -125,17 +125,6 @@ function HomeSection() {
           Connecting villages with authorities to solve problems and celebrate progress.
         </p>
       </div>
-    </section>
-  );
-}
-
-function EventsSection() {
-  return (
-    <section className="text-center">
-      <h2 className="text-3xl font-bold">Events</h2>
-      <p className="mt-4 text-muted-foreground">
-        Upcoming village meetings, cultural festivals, and local updates will be displayed here.
-      </p>
     </section>
   );
 }
@@ -294,8 +283,6 @@ export default function Home() {
     switch (activeSection) {
       case 'home':
         return <HomeSection />;
-      case 'events':
-        return <EventsSection />;
       case 'issues':
         return <IssuesSection />;
       default:
@@ -309,7 +296,9 @@ export default function Home() {
         <h1 className="text-2xl font-bold">GramSeva</h1>
         <nav className="flex items-center space-x-4">
           <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('home')}>Home</Button>
-          <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('events')}>Events</Button>
+          <Button variant="link" className="text-primary-foreground text-base" asChild>
+            <Link href="/events">Events</Link>
+          </Button>
           <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('issues')}>Issues</Button>
           <Button variant="link" className="text-primary-foreground text-base" asChild>
             <Link href="/login">Login</Link>
