@@ -12,6 +12,9 @@ import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { panchayats } from '@/lib/panchayats';
+import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image';
+import { fileToDataUri } from '@/lib/utils';
+import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 
 type Section = 'home' | 'events' | 'issues';
 
@@ -58,16 +61,6 @@ const fetchProblems = async () => {
       image: 'https://picsum.photos/seed/problem2/400/300',
     },
   ];
-};
-
-const submitProblem = async (formData: FormData) => {
-  // In a real app, this would submit to your backend
-  console.log('Submitting:', Object.fromEntries(formData.entries()));
-  await new Promise(res => setTimeout(res, 1000));
-  return {
-    message: 'Problem submitted successfully!',
-    aiResult: 'Analysis complete: Identified as infrastructure damage.',
-  };
 };
 
 function Carousel() {
@@ -157,6 +150,7 @@ function IssuesSection() {
   const { toast } = useToast();
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -171,24 +165,62 @@ function IssuesSection() {
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData(e.currentTarget);
-    try {
-      const data = await submitProblem(formData);
+    const imageFile = formData.get('image') as File;
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
+    const panchayatId = formData.get('panchayat') as string;
+    const panchayat = panchayats.find(p => p.id === panchayatId);
+    
+    if (!imageFile || !panchayat) {
       toast({
-        title: '✅ Success',
-        description: `${data.message}\nAI Analysis:\n${data.aiResult}`
+        variant: 'destructive',
+        title: '❌ Error',
+        description: 'Please fill all fields and select a Panchayat.'
       });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      setLoadingMessage('Processing image...');
+      const photoDataUri = await fileToDataUri(imageFile);
+
+      setLoadingMessage('Identifying problem category...');
+      const { problemCategory } = await identifyProblemFromImage({ photoDataUri });
+
+      setLoadingMessage('Drafting report for Panchayat...');
+      const { report } = await draftReportForPanchayat({
+        photoDataUri,
+        problemCategory,
+        problemDescription: description,
+        panchayatName: panchayat.name
+      });
+      
+      const panchayatEmail = `${panchayat.id.replace(/\s/g, '.')}@example.com`; // Placeholder email
+      const mailtoLink = `mailto:${panchayatEmail}?subject=${encodeURIComponent(
+        `Problem Report: ${title}`
+      )}&body=${encodeURIComponent(report)}`;
+
+      window.location.href = mailtoLink;
+      
+      toast({
+        title: '✅ Report Drafted',
+        description: 'Your email client is opening to send the report.'
+      });
+      
       formRef.current?.reset();
-      const fetchedProblems = await fetchProblems();
+      const fetchedProblems = await fetchProblems(); // Refresh list
       setProblems(fetchedProblems);
     } catch (err) {
       toast({
         variant: 'destructive',
         title: '❌ Error',
-        description: 'Error submitting problem!'
+        description: 'An error occurred while processing your report.'
       });
       console.error(err);
     } finally {
       setIsLoading(false);
+      setLoadingMessage('');
     }
   };
 
@@ -217,7 +249,7 @@ function IssuesSection() {
               </Select>
               <Input type="file" name="image" accept="image/*" required />
               <Button type="submit" className="w-full bg-accent hover:bg-accent/90" disabled={isLoading}>
-                {isLoading ? 'Submitting...' : 'Submit'}
+                {isLoading ? loadingMessage : 'Submit'}
               </Button>
             </form>
           </CardContent>

@@ -35,11 +35,11 @@ const prompt = ai.definePrompt({
   name: 'identifyProblemFromImagePrompt',
   input: {schema: IdentifyProblemFromImageInputSchema},
   output: {schema: IdentifyProblemFromImageOutputSchema},
-  prompt: `You are an AI trained to identify urban problems from images.
+  prompt: `You are an AI trained to identify problems in a village from images.
 
   Analyze the image and determine the category of the problem.
 
-  Available categories: pothole, overflowing bin, broken streetlight.
+  Available categories: pothole, overflowing bin, broken streetlight, garbage dump, water logging, damaged public property.
 
   Return only the identified problem category, nothing else.
 
