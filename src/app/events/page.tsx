@@ -117,10 +117,12 @@ export default function EventsPage() {
       </header>
       
       <main className="p-5">
+        <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
+        </div>
         <div className="max-w-4xl mx-auto space-y-12">
             {availableEvents.map((eventName) => {
                 const eventSubmissions = submissionsByEvent[eventName] || [];
-                const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
 
                 return (
                     <div key={eventName}>
@@ -164,15 +166,13 @@ export default function EventsPage() {
                         )}
 
                         <div className="space-y-10 mt-8">
-                            {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
-                                <div key={panchayatName}>
-                                <h3 className="text-2xl font-semibold text-primary mb-4">{panchayatName}</h3>
+                            <div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                    {images.map(image => (
+                                    {eventSubmissions.map(image => (
                                     <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
                                         <Image 
                                         src={image.imageUrl}
-                                        alt={`Event submission from ${panchayatName}`}
+                                        alt={`Event submission from ${image.panchayatName}`}
                                         width={400}
                                         height={300}
                                         className="w-full h-full object-cover"
@@ -180,9 +180,8 @@ export default function EventsPage() {
                                     </div>
                                     ))}
                                 </div>
-                                </div>
-                            ))}
-                             {eventSubmissions.length === 0 && <p className="text-muted-foreground">No submissions for this event yet.</p>}
+                            </div>
+                            {eventSubmissions.length === 0 && <p className="text-muted-foreground">No submissions for this event yet.</p>}
                         </div>
                     </div>
                 );
