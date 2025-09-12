@@ -71,7 +71,7 @@ export default function EventsPage() {
 
       toast({
         title: '✅ Submission Successful!',
-        description: "Thank you for participating in 'Har Ghar Tiranga'!",
+        description: "Thank you for participating!",
       });
 
       formRef.current?.reset();
@@ -111,9 +111,9 @@ export default function EventsPage() {
       
       <main className="p-5">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-primary">Har Ghar Tiranga 🇮🇳</h1>
+          <h1 className="text-4xl font-bold text-primary">Village Events</h1>
           <p className="text-lg text-muted-foreground mt-2">
-            Showcase your village's patriotic spirit! Upload photos of flag displays from your Panchayat.
+            Participate in village events and make your gram shine!
           </p>
         </div>
 
@@ -121,7 +121,7 @@ export default function EventsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Submit Your Entry</CardTitle>
-              <CardDescription>Select your Panchayat and upload a photo of a flag display.</CardDescription>
+              <CardDescription>Select your Panchayat and upload a photo for an event.</CardDescription>
             </CardHeader>
             <CardContent>
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
@@ -157,7 +157,7 @@ export default function EventsPage() {
                     <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
                       <Image 
                         src={image.imageUrl}
-                        alt={`Har Ghar Tiranga submission from ${panchayatName}`}
+                        alt={`Event submission from ${panchayatName}`}
                         width={400}
                         height={300}
                         className="w-full h-full object-cover"
