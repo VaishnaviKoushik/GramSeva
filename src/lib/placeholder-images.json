@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "carousel_1",
+      "description": "A bustling village market scene",
+      "imageUrl": "https://picsum.photos/seed/1/1000/200",
+      "imageHint": "village market"
+    },
+    {
+      "id": "carousel_2",
+      "description": "Children playing in a village square",
+      "imageUrl": "https://picsum.photos/seed/2/1000/200",
+      "imageHint": "children playing"
+    },
+    {
+      "id": "carousel_3",
+      "description": "A community gathering under a large tree",
+      "imageUrl": "https://picsum.photos/seed/3/1000/200",
+      "imageHint": "community gathering"
+    },
+    {
+      "id": "carousel_4",
+      "description": "Farmers working in a lush green field",
+      "imageUrl": "https://picsum.photos/seed/4/1000/200",
+      "imageHint": "farmers field"
+    }
+  ]
 }
