@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
@@ -21,6 +22,7 @@ const mockSubmissions = [
     { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e4/400/300', panchayatName: 'Athani (Belagavi)' },
     { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e5/400/300', panchayatName: 'Athani (Belagavi)' },
     { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://picsum.photos/seed/e6/400/300', panchayatName: 'Gokak (Belagavi)' },
+    { id: 7, event: 'Plantation Drive', panchayat: 'gokak', imageUrl: 'https://picsum.photos/seed/e7/400/300', panchayatName: 'Gokak (Belagavi)' },
 ];
 
 const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
@@ -162,36 +164,41 @@ export default function EventsPage() {
           </Card>
         </div>
 
-        <div className="space-y-12">
-          {Object.entries(submissionsByEvent).map(([eventName, eventSubmissions]) => {
-            const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
-            return (
-              <div key={eventName}>
-                <h2 className="text-3xl font-bold text-center mb-8">{eventName}</h2>
-                <div className="space-y-10">
-                  {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
-                    <div key={panchayatName}>
-                      <h3 className="text-2xl font-semibold text-accent mb-4">{panchayatName}</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {images.map(image => (
-                          <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                            <Image 
-                              src={image.imageUrl}
-                              alt={`Event submission from ${panchayatName}`}
-                              width={400}
-                              height={300}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <Tabs defaultValue={availableEvents[0]} className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+                 {Object.keys(submissionsByEvent).map((eventName) => (
+                    <TabsTrigger key={eventName} value={eventName}>{eventName}</TabsTrigger>
+                ))}
+            </TabsList>
+
+            {Object.entries(submissionsByEvent).map(([eventName, eventSubmissions]) => {
+                const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
+                return (
+                    <TabsContent key={eventName} value={eventName}>
+                        <div className="space-y-10 mt-8">
+                            {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
+                                <div key={panchayatName}>
+                                <h3 className="text-2xl font-semibold text-accent mb-4">{panchayatName}</h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                    {images.map(image => (
+                                    <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                                        <Image 
+                                        src={image.imageUrl}
+                                        alt={`Event submission from ${panchayatName}`}
+                                        width={400}
+                                        height={300}
+                                        className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    ))}
+                                </div>
+                                </div>
+                            ))}
+                        </div>
+                    </TabsContent>
+                );
+            })}
+        </Tabs>
       </main>
 
        <footer className="text-center p-2.5 bg-primary text-primary-foreground mt-5">
@@ -200,3 +207,5 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    
