@@ -40,6 +40,7 @@ export default function EventsPage() {
   const { toast } = useToast();
   const [submissions, setSubmissions] = useState<Submission[]>(mockSubmissions);
   const [isLoading, setIsLoading] = useState(false);
+  const [formVisibleForEvent, setFormVisibleForEvent] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,6 +82,7 @@ export default function EventsPage() {
       });
 
       formRef.current?.reset();
+      setFormVisibleForEvent(null);
     } catch (err) {
       toast({
         variant: 'destructive',
@@ -134,35 +136,40 @@ export default function EventsPage() {
                 const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
                 return (
                     <TabsContent key={eventName} value={eventName}>
-                       <div className="max-w-2xl mx-auto mb-12">
-                          <Card>
-                            <CardHeader>
-                              <CardTitle>Submit Your Entry for {eventName}</CardTitle>
-                              <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                                <input type="hidden" name="event" value={eventName} />
-                                <Select name="panchayat" required>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select your Panchayat" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {panchayats.map((panchayat) => (
-                                      <SelectItem key={panchayat.id} value={panchayat.id}>
-                                        {panchayat.name}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                                <Input type="file" name="image" accept="image/*" required />
-                                <Button type="submit" className="w-full" disabled={isLoading}>
-                                  {isLoading ? 'Uploading...' : 'Upload Photo'}
-                                </Button>
-                              </form>
-                            </CardContent>
-                          </Card>
+                        <div className="text-center mb-8">
+                            <Button onClick={() => setFormVisibleForEvent(eventName)}>Join Now</Button>
                         </div>
+                        {formVisibleForEvent === eventName && (
+                            <div className="max-w-2xl mx-auto mb-12">
+                                <Card>
+                                <CardHeader>
+                                    <CardTitle>Submit Your Entry for {eventName}</CardTitle>
+                                    <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                                    <input type="hidden" name="event" value={eventName} />
+                                    <Select name="panchayat" required>
+                                        <SelectTrigger>
+                                        <SelectValue placeholder="Select your Panchayat" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                        {panchayats.map((panchayat) => (
+                                            <SelectItem key={panchayat.id} value={panchayat.id}>
+                                            {panchayat.name}
+                                            </SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <Input type="file" name="image" accept="image/*" required />
+                                    <Button type="submit" className="w-full" disabled={isLoading}>
+                                        {isLoading ? 'Uploading...' : 'Upload Photo'}
+                                    </Button>
+                                    </form>
+                                </CardContent>
+                                </Card>
+                            </div>
+                        )}
                         <div className="space-y-10 mt-8">
                             {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
                                 <div key={panchayatName}>
