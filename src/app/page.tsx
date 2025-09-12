@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -6,7 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -15,6 +16,28 @@ import { panchayats } from '@/lib/panchayats';
 type Section = 'home' | 'events' | 'issues';
 
 const carouselImages = PlaceHolderImages.filter(p => p.id.startsWith("carousel_"));
+
+const governmentEvents = [
+  {
+    id: 1,
+    title: 'Digital India Week',
+    description: 'Join us for a week of events celebrating digital literacy and empowerment. Promoted by the Central Government.',
+    link: '#',
+  },
+  {
+    id: 2,
+    title: 'State Health Mission Camp',
+    description: 'Free health check-ups and awareness programs organized by the State Health Department.',
+    link: '#',
+  },
+  {
+    id: 3,
+    title: 'Clean Village, Green Village',
+    description: 'A state-wide initiative to promote cleanliness and environmental conservation in our villages.',
+    link: '#',
+  },
+];
+
 
 // Mock API functions for demonstration
 const fetchProblems = async () => {
@@ -84,10 +107,29 @@ function HomeSection() {
   return (
     <section>
       <Carousel />
-      <h2 className="text-center text-2xl mt-4">Welcome to GramSeva 🌱</h2>
-      <p className="text-center text-muted-foreground">
-        Connecting villages with authorities to solve problems and celebrate progress.
-      </p>
+      
+      <div className="mt-8">
+        <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          {governmentEvents.map((event) => (
+            <Card key={event.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader>
+                <CardTitle>{event.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">{event.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-12">
+        <h2 className="text-center text-2xl">Welcome to GramSeva 🌱</h2>
+        <p className="text-center text-muted-foreground">
+          Connecting villages with authorities to solve problems and celebrate progress.
+        </p>
+      </div>
     </section>
   );
 }
