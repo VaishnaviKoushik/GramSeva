@@ -16,9 +16,10 @@ import { Badge } from '@/components/ui/badge';
 
 // Mock data for event submissions.
 const mockSubmissions = [
-    { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_4ajdMcc3T3g-Q5i-X4yB0k-L-Y_y-5s7_A&s', panchayatName: 'Badami (Bagalkot)' },
-    { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Badami (Bagalkot)' },
-    { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkY7g5F5f5_7d6s8a5f8a9d3a4d4c5f5b5c&s', panchayatName: 'Jamkhandi (Bagalkot)' },
+    { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://c.ndtvimg.com/2022-08/mlo2e7f8_har-ghar-tiranga-campaign_625x300_13_August_22.jpg', panchayatName: 'Badami (Bagalkot)' },
+    { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://images.cnbctv18.com/wp-content/uploads/2022/07/Har-ghar-tiranga-1019x573.jpg', panchayatName: 'Badami (Bagalkot)' },
+    { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://static.theprint.in/wp-content/uploads/2022/08/ANI-20220813075201.jpg', panchayatName: 'Jamkhandi (Bagalkot)' },
+    { id: 8, event: 'Har Ghar Tiranga', panchayat: 'gokak', imageUrl: 'https://www.thehawk.in/media-library/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXNzZXRzLnJibC5tcy8zMjM0MDIyOS9vcmlnaW4uanBnIiwiZXhwaXJlc19hdCI6MTc1NTEzODg5MX0.D6I-UEkG_i7K7o8a-m-gpvWk6q0L2PQL3S_DtKkLf70/image.jpg', panchayatName: 'Gokak (Belagavi)' },
     { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://media.geeksforgeeks.org/wp-content/uploads/20230728153232/gfg-50.jpg', panchayatName: 'Athani (Belagavi)' },
     { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202310/swachh-bharat-mission-013322428-16x9.jpg?VersionId=T.8i8n3jCgVcr2wY30m5F8z46_7mU9xP&size=690:388', panchayatName: 'Athani (Belagavi)' },
     { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Gokak (Belagavi)' },
@@ -173,8 +174,7 @@ export default function EventsPage() {
 
                     return (
                         <div key={`${eventName}-gallery`}>
-                            <h2 className="text-2xl font-bold text-center mb-4">{eventName} Submissions</h2>
-                             <div className="panorama-slider" style={{'--duration': `${animationDuration}s`} as React.CSSProperties}>
+                            <div className="panorama-slider" style={{'--duration': `${animationDuration}s`} as React.CSSProperties}>
                                 <div className="panorama-track">
                                     {[...eventSubmissions, ...eventSubmissions].map((image, index) => (
                                         <div key={`${image.id}-${index}`} className="panorama-item">

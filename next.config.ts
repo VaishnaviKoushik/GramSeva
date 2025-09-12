@@ -58,6 +58,30 @@ const nextConfig: NextConfig = {
         hostname: 'ciiblog.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'c.ndtvimg.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.cnbctv18.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.theprint.in',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.thehawk.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
