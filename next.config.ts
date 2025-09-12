@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
         hostname: 'sevalaya.org',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'akm-img-a-in.tosshub.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
