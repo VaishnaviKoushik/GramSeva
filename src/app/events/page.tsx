@@ -121,71 +121,75 @@ export default function EventsPage() {
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-            {availableEvents.map((eventName) => {
-                const eventSubmissions = submissionsByEvent[eventName] || [];
-
-                return (
-                    <div key={eventName}>
-                        <div className="flex justify-between items-center mb-6">
-                             <h2 className="text-3xl font-bold text-primary">{eventName}</h2>
-                             <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
-                                {formVisibleForEvent === eventName ? 'Close' : 'Join'}
-                             </Button>
-                        </div>
-                        
-                        {formVisibleForEvent === eventName && (
-                            <div className="max-w-2xl mx-auto mb-12">
-                                <Card>
-                                <CardHeader>
-                                    <CardTitle>Submit Your Entry for {eventName}</CardTitle>
-                                    <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                                    <input type="hidden" name="event" value={eventName} />
-                                    <Select name="panchayat" required>
-                                        <SelectTrigger>
-                                        <SelectValue placeholder="Select your Panchayat" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                        {panchayats.map((panchayat) => (
-                                            <SelectItem key={panchayat.id} value={panchayat.id}>
-                                            {panchayat.name}
-                                            </SelectItem>
-                                        ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <Input type="file" name="image" accept="image/*" required />
-                                    <Button type="submit" className="w-full" disabled={isLoading}>
-                                        {isLoading ? 'Uploading...' : 'Upload Photo'}
-                                    </Button>
-                                    </form>
-                                </CardContent>
-                                </Card>
-                            </div>
-                        )}
-
-                        <div className="space-y-10 mt-8">
-                            <div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                    {eventSubmissions.map(image => (
-                                    <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                                        <Image 
-                                        src={image.imageUrl}
-                                        alt={`Event submission from ${image.panchayatName}`}
-                                        width={400}
-                                        height={300}
-                                        className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    ))}
-                                </div>
-                            </div>
-                            {eventSubmissions.length === 0 && <p className="text-muted-foreground">No submissions for this event yet.</p>}
-                        </div>
+            {availableEvents.map((eventName) => (
+                <div key={eventName}>
+                    <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-3xl font-bold text-primary">{eventName}</h2>
+                            <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
+                            {formVisibleForEvent === eventName ? 'Close' : 'Join'}
+                            </Button>
                     </div>
-                );
-            })}
+                    
+                    {formVisibleForEvent === eventName && (
+                        <div className="max-w-2xl mx-auto mb-12">
+                            <Card>
+                            <CardHeader>
+                                <CardTitle>Submit Your Entry for {eventName}</CardTitle>
+                                <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                                <input type="hidden" name="event" value={eventName} />
+                                <Select name="panchayat" required>
+                                    <SelectTrigger>
+                                    <SelectValue placeholder="Select your Panchayat" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    {panchayats.map((panchayat) => (
+                                        <SelectItem key={panchayat.id} value={panchayat.id}>
+                                        {panchayat.name}
+                                        </SelectItem>
+                                    ))}
+                                    </SelectContent>
+                                </Select>
+                                <Input type="file" name="image" accept="image/*" required />
+                                <Button type="submit" className="w-full" disabled={isLoading}>
+                                    {isLoading ? 'Uploading...' : 'Upload Photo'}
+                                </Button>
+                                </form>
+                            </CardContent>
+                            </Card>
+                        </div>
+                    )}
+                </div>
+            ))}
+
+            <div className="mt-16 space-y-12">
+                {availableEvents.map((eventName) => {
+                    const eventSubmissions = submissionsByEvent[eventName] || [];
+                    if (eventSubmissions.length === 0) return null;
+
+                    return (
+                        <div key={`${eventName}-gallery`}>
+                            <h2 className="text-3xl font-bold text-primary mb-6">{eventName} Submissions</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {eventSubmissions.map(image => (
+                                <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                                    <Image 
+                                    src={image.imageUrl}
+                                    alt={`Event submission from ${image.panchayatName}`}
+                                    width={400}
+                                    height={300}
+                                    className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
         </div>
       </main>
 
