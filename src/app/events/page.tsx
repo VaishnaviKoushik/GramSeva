@@ -13,18 +13,22 @@ import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
 
-// Mock data for event submissions. In a real app, this would come from a database.
+// Mock data for event submissions.
 const mockSubmissions = [
-    { id: 1, panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/e1/400/300', panchayatName: 'Badami (Bagalkot)' },
-    { id: 2, panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/e2/400/300', panchayatName: 'Badami (Bagalkot)' },
-    { id: 3, panchayat: 'jamkhandi', imageUrl: 'https://picsum.photos/seed/e3/400/300', panchayatName: 'Jamkhandi (Bagalkot)' },
-    { id: 4, panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e4/400/300', panchayatName: 'Athani (Belagavi)' },
-    { id: 5, panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e5/400/300', panchayatName: 'Athani (Belagavi)' },
-    { id: 6, panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e6/400/300', panchayatName: 'Athani (Belagavi)' },
+    { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/e1/400/300', panchayatName: 'Badami (Bagalkot)' },
+    { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/e2/400/300', panchayatName: 'Badami (Bagalkot)' },
+    { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://picsum.photos/seed/e3/400/300', panchayatName: 'Jamkhandi (Bagalkot)' },
+    { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e4/400/300', panchayatName: 'Athani (Belagavi)' },
+    { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e5/400/300', panchayatName: 'Athani (Belagavi)' },
+    { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://picsum.photos/seed/e6/400/300', panchayatName: 'Gokak (Belagavi)' },
 ];
+
+const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
+
 
 type Submission = {
     id: number;
+    event: string;
     panchayat: string;
     imageUrl: string;
     panchayatName: string;
@@ -43,13 +47,14 @@ export default function EventsPage() {
     const formData = new FormData(e.currentTarget);
     const imageFile = formData.get('image') as File;
     const panchayatId = formData.get('panchayat') as string;
+    const eventName = formData.get('event') as string;
     const panchayat = panchayats.find(p => p.id === panchayatId);
 
-    if (!imageFile || !panchayat) {
+    if (!imageFile || !panchayat || !eventName) {
       toast({
         variant: 'destructive',
         title: '❌ Incomplete Submission',
-        description: 'Please select your Panchayat and upload an image.',
+        description: 'Please select an event, your Panchayat, and upload an image.',
       });
       setIsLoading(false);
       return;
@@ -58,10 +63,9 @@ export default function EventsPage() {
     try {
       const photoDataUri = await fileToDataUri(imageFile);
       
-      // In a real app, you would save this data to your backend.
-      // For this prototype, we'll just add it to our local state.
       const newSubmission: Submission = {
         id: submissions.length + 1,
+        event: eventName,
         panchayat: panchayat.id,
         panchayatName: panchayat.name,
         imageUrl: photoDataUri,
@@ -87,7 +91,7 @@ export default function EventsPage() {
     }
   };
 
-  const submissionsByPanchayat = groupBy(submissions, 'panchayatName');
+  const submissionsByEvent = groupBy(submissions, 'event');
 
   return (
     <div className="bg-background min-h-screen">
@@ -121,10 +125,22 @@ export default function EventsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Submit Your Entry</CardTitle>
-              <CardDescription>Select your Panchayat and upload a photo for an event.</CardDescription>
+              <CardDescription>Select an event, your Panchayat, and upload a photo to participate.</CardDescription>
             </CardHeader>
             <CardContent>
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                 <Select name="event" required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an Event" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableEvents.map((eventName) => (
+                      <SelectItem key={eventName} value={eventName}>
+                        {eventName}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Select name="panchayat" required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select your Panchayat" />
@@ -146,28 +162,35 @@ export default function EventsPage() {
           </Card>
         </div>
 
-        <div>
-          <h2 className="text-3xl font-bold text-center mb-8">Village Galleries</h2>
-          <div className="space-y-10">
-            {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
-              <div key={panchayatName}>
-                <h3 className="text-2xl font-semibold text-accent mb-4">{panchayatName}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {images.map(image => (
-                    <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                      <Image 
-                        src={image.imageUrl}
-                        alt={`Event submission from ${panchayatName}`}
-                        width={400}
-                        height={300}
-                        className="w-full h-full object-cover"
-                      />
+        <div className="space-y-12">
+          {Object.entries(submissionsByEvent).map(([eventName, eventSubmissions]) => {
+            const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
+            return (
+              <div key={eventName}>
+                <h2 className="text-3xl font-bold text-center mb-8">{eventName}</h2>
+                <div className="space-y-10">
+                  {Object.entries(submissionsByPanchayat).map(([panchayatName, images]) => (
+                    <div key={panchayatName}>
+                      <h3 className="text-2xl font-semibold text-accent mb-4">{panchayatName}</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {images.map(image => (
+                          <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <Image 
+                              src={image.imageUrl}
+                              alt={`Event submission from ${panchayatName}`}
+                              width={400}
+                              height={300}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </main>
 
