@@ -74,7 +74,7 @@ function Carousel() {
   }, []);
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[450px]">
+    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[400px]">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -85,8 +85,8 @@ function Carousel() {
                 src={img.imageUrl}
                 alt={img.description}
                 width={1000}
-                height={450}
-                className="object-cover w-full h-[450px]"
+                height={400}
+                className="object-cover w-full h-[400px]"
                 data-ai-hint={img.imageHint}
               />
           </div>
