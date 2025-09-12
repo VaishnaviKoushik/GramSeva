@@ -18,12 +18,6 @@
       "description": "A community gathering under a large tree",
       "imageUrl": "https://picsum.photos/seed/india-village/1000/200",
       "imageHint": "community gathering"
-    },
-    {
-      "id": "carousel_4",
-      "description": "Farmers working in a lush green field",
-      "imageUrl": "https://picsum.photos/seed/4/1000/200",
-      "imageHint": "farmers field"
     }
   ]
 }
