@@ -16,13 +16,13 @@ import { Badge } from '@/components/ui/badge';
 
 // Mock data for event submissions.
 const mockSubmissions = [
-    { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/e1/400/300', panchayatName: 'Badami (Bagalkot)' },
-    { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/e2/400/300', panchayatName: 'Badami (Bagalkot)' },
-    { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://picsum.photos/seed/e3/400/300', panchayatName: 'Jamkhandi (Bagalkot)' },
-    { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e4/400/300', panchayatName: 'Athani (Belagavi)' },
-    { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/e5/400/300', panchayatName: 'Athani (Belagavi)' },
-    { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://picsum.photos/seed/e6/400/300', panchayatName: 'Gokak (Belagavi)' },
-    { id: 7, event: 'Plantation Drive', panchayat: 'gokak', imageUrl: 'https://picsum.photos/seed/e7/400/300', panchayatName: 'Gokak (Belagavi)' },
+    { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_4ajdMcc3T3g-Q5i-X4yB0k-L-Y_y-5s7_A&s', panchayatName: 'Badami (Bagalkot)' },
+    { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Badami (Bagalkot)' },
+    { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkY7g5F5f5_7d6s8a5f8a9d3a4d4c5f5b5c&s', panchayatName: 'Jamkhandi (Bagalkot)' },
+    { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Athani (Belagavi)' },
+    { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Athani (Belagavi)' },
+    { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Gokak (Belagavi)' },
+    { id: 7, event: 'Plantation Drive', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Gokak (Belagavi)' },
 ];
 
 const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
