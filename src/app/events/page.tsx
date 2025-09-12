@@ -13,15 +13,16 @@ import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
 import { Badge } from '@/components/ui/badge';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 // Mock data for event submissions.
 const mockSubmissions = [
     { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_4ajdMcc3T3g-Q5i-X4yB0k-L-Y_y-5s7_A&s', panchayatName: 'Badami (Bagalkot)' },
     { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Badami (Bagalkot)' },
     { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkY7g5F5f5_7d6s8a5f8a9d3a4d4c5f5b5c&s', panchayatName: 'Jamkhandi (Bagalkot)' },
-    { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Athani (Belagavi)' },
-    { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Athani (Belagavi)' },
-    { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Gokak (Belagavi)' },
+    { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://media.geeksforgeeks.org/wp-content/uploads/20230728153232/gfg-50.jpg', panchayatName: 'Athani (Belagavi)' },
+    { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202310/swachh-bharat-mission-013322428-16x9.jpg?VersionId=T.8i8n3jCgVcr2wY30m5F8z46_7mU9xP&size=690:388', panchayatName: 'Athani (Belagavi)' },
+    { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Gokak (Belagavi)' },
     { id: 7, event: 'Plantation Drive', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Gokak (Belagavi)' },
 ];
 
@@ -170,28 +171,34 @@ export default function EventsPage() {
                     const eventSubmissions = submissionsByEvent[eventName] || [];
                     if (eventSubmissions.length === 0) return null;
 
-                    const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
-
                     return (
                         <div key={`${eventName}-gallery`}>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {Object.entries(submissionsByPanchayat).flatMap(([panchayatName, panchayatSubmissions]) =>
-                                    panchayatSubmissions.map(image => (
-                                        <div key={image.id} className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 group">
-                                            <Image 
-                                                src={image.imageUrl}
-                                                alt={`Event submission from ${image.panchayatName}`}
-                                                width={400}
-                                                height={300}
-                                                className="w-full h-full object-cover"
-                                            />
-                                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                <Badge variant="secondary">{image.panchayatName}</Badge>
+                            <h2 className="text-2xl font-bold text-center mb-4">{eventName} Submissions</h2>
+                             <Carousel className="w-full max-w-xs mx-auto" opts={{ loop: true }}>
+                                <CarouselContent>
+                                    {eventSubmissions.map((image) => (
+                                        <CarouselItem key={image.id}>
+                                            <div className="p-1">
+                                                <Card>
+                                                    <CardContent className="flex aspect-square items-center justify-center p-6 relative">
+                                                        <Image 
+                                                            src={image.imageUrl}
+                                                            alt={`Event submission from ${image.panchayatName}`}
+                                                            fill
+                                                            className="object-cover rounded-lg"
+                                                        />
+                                                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 text-white">
+                                                            <Badge variant="secondary">{image.panchayatName}</Badge>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
                                             </div>
-                                        </div>
-                                    ))
-                                )}
-                            </div>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious />
+                                <CarouselNext />
+                            </Carousel>
                         </div>
                     );
                 })}
