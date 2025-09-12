@@ -86,3 +86,29 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .panorama-slider {
+    @apply w-full overflow-hidden relative;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .panorama-track {
+    @apply flex;
+    animation: scroll var(--duration) linear infinite;
+  }
+  
+  .panorama-slider:hover .panorama-track {
+    animation-play-state: paused;
+  }
+
+  .panorama-item {
+    @apply flex-shrink-0 w-80 p-2;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}

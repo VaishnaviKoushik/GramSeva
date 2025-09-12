@@ -13,7 +13,6 @@ import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
 import { Badge } from '@/components/ui/badge';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 // Mock data for event submissions.
 const mockSubmissions = [
@@ -122,7 +121,7 @@ export default function EventsPage() {
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
-        <div className="max-w-4xl mx-auto space-y-12">
+        <div className="max-w-7xl mx-auto space-y-12">
             {availableEvents.map((eventName) => (
                 <div key={eventName}>
                     <div className="flex justify-between items-center mb-6">
@@ -170,35 +169,32 @@ export default function EventsPage() {
                 {availableEvents.map((eventName) => {
                     const eventSubmissions = submissionsByEvent[eventName] || [];
                     if (eventSubmissions.length === 0) return null;
+                    const animationDuration = eventSubmissions.length * 5;
 
                     return (
                         <div key={`${eventName}-gallery`}>
                             <h2 className="text-2xl font-bold text-center mb-4">{eventName} Submissions</h2>
-                             <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true, align: "start" }}>
-                                <CarouselContent>
-                                    {eventSubmissions.map((image) => (
-                                        <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
-                                            <div className="p-1">
-                                                <Card>
-                                                    <CardContent className="flex aspect-square items-center justify-center p-6 relative">
-                                                        <Image 
-                                                            src={image.imageUrl}
-                                                            alt={`Event submission from ${image.panchayatName}`}
-                                                            fill
-                                                            className="object-cover rounded-lg"
-                                                        />
-                                                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 text-white">
-                                                            <Badge variant="secondary">{image.panchayatName}</Badge>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            </div>
-                                        </CarouselItem>
+                             <div className="panorama-slider" style={{'--duration': `${animationDuration}s`} as React.CSSProperties}>
+                                <div className="panorama-track">
+                                    {[...eventSubmissions, ...eventSubmissions].map((image, index) => (
+                                        <div key={`${image.id}-${index}`} className="panorama-item">
+                                            <Card>
+                                                <CardContent className="flex aspect-square items-center justify-center p-2 relative">
+                                                    <Image 
+                                                        src={image.imageUrl}
+                                                        alt={`Event submission from ${image.panchayatName}`}
+                                                        fill
+                                                        className="object-cover rounded-lg"
+                                                    />
+                                                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 text-white">
+                                                        <Badge variant="secondary">{image.panchayatName}</Badge>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
                                     ))}
-                                </CarouselContent>
-                                <CarouselPrevious />
-                                <CarouselNext />
-                            </Carousel>
+                                </div>
+                            </div>
                         </div>
                     );
                 })}
