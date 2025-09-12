@@ -174,10 +174,10 @@ export default function EventsPage() {
                     return (
                         <div key={`${eventName}-gallery`}>
                             <h2 className="text-2xl font-bold text-center mb-4">{eventName} Submissions</h2>
-                             <Carousel className="w-full max-w-xs mx-auto" opts={{ loop: true }}>
+                             <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true, align: "start" }}>
                                 <CarouselContent>
                                     {eventSubmissions.map((image) => (
-                                        <CarouselItem key={image.id}>
+                                        <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
                                             <div className="p-1">
                                                 <Card>
                                                     <CardContent className="flex aspect-square items-center justify-center p-6 relative">
