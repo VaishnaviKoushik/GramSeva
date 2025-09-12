@@ -2,12 +2,15 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { panchayats } from '@/lib/panchayats';
 
 type Section = 'home' | 'events' | 'issues';
 
@@ -158,6 +161,18 @@ function IssuesSection() {
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
               <Input name="title" placeholder="Problem Title" required />
               <Textarea name="description" placeholder="Describe the issue" required />
+              <Select name="panchayat" required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select your Panchayat" />
+                </SelectTrigger>
+                <SelectContent>
+                  {panchayats.map((panchayat) => (
+                    <SelectItem key={panchayat.id} value={panchayat.id}>
+                      {panchayat.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <Input type="file" name="image" accept="image/*" required />
               <Button type="submit" className="w-full bg-accent hover:bg-accent/90" disabled={isLoading}>
                 {isLoading ? 'Submitting...' : 'Submit'}
@@ -220,7 +235,9 @@ export default function Home() {
           <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('home')}>Home</Button>
           <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('events')}>Events</Button>
           <Button variant="link" className="text-primary-foreground text-base" onClick={() => setActiveSection('issues')}>Issues</Button>
-          <Button variant="link" className="text-primary-foreground text-base">Login</Button>
+          <Button variant="link" className="text-primary-foreground text-base" asChild>
+            <Link href="/login">Login</Link>
+          </Button>
         </nav>
       </header>
 
