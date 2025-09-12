@@ -39,6 +39,12 @@ const nextConfig: NextConfig = {
         hostname: 'media.geeksforgeeks.org',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'sevalaya.org',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
