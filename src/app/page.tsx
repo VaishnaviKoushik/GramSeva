@@ -295,15 +295,15 @@ export default function Home() {
   
   return (
     <div className="bg-background min-h-screen">
-      <header className="bg-card text-card-foreground flex justify-between items-center p-4 px-10 border-b">
-        <h1 className="text-2xl font-bold text-primary">GramSeva</h1>
+      <header className="bg-white text-black flex justify-between items-center p-4 px-10 border-b">
+        <h1 className="text-3xl font-bold text-black">GramSeva</h1>
         <nav className="flex items-center space-x-4">
-          <Button variant="link" className="text-foreground text-base" onClick={() => setActiveSection('home')}>Home</Button>
-          <Button variant="link" className="text-foreground text-base" asChild>
+          <Button variant="link" className="text-black text-lg" onClick={() => setActiveSection('home')}>Home</Button>
+          <Button variant="link" className="text-black text-lg" asChild>
             <Link href="/events">Events</Link>
           </Button>
-          <Button variant="link" className="text-foreground text-base" onClick={() => setActiveSection('issues')}>Issues</Button>
-          <Button variant="link" className="text-foreground text-base" asChild>
+          <Button variant="link" className="text-black text-lg" onClick={() => setActiveSection('issues')}>Issues</Button>
+          <Button variant="link" className="text-black text-lg" asChild>
             <Link href="/login">Login</Link>
           </Button>
         </nav>

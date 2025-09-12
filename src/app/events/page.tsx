@@ -99,19 +99,19 @@ export default function EventsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-       <header className="bg-card text-card-foreground flex justify-between items-center p-4 px-10 border-b">
-        <Link href="/" className="text-2xl font-bold text-primary">GramSeva</Link>
+       <header className="bg-white text-black flex justify-between items-center p-4 px-10 border-b">
+        <Link href="/" className="text-3xl font-bold text-black">GramSeva</Link>
         <nav className="flex items-center space-x-4">
-            <Button variant="link" className="text-foreground text-base" asChild>
+            <Button variant="link" className="text-black text-lg" asChild>
                 <Link href="/">Home</Link>
             </Button>
-            <Button variant="link" className="text-foreground text-base" asChild>
+            <Button variant="link" className="text-black text-lg" asChild>
                 <Link href="/events">Events</Link>
             </Button>
-            <Button variant="link" className="text-foreground text-base" asChild>
+            <Button variant="link" className="text-black text-lg" asChild>
                 <Link href="/#issues">Issues</Link>
             </Button>
-            <Button variant="link" className="text-foreground text-base" asChild>
+            <Button variant="link" className="text-black text-lg" asChild>
                 <Link href="/login">Login</Link>
             </Button>
         </nav>
