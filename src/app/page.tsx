@@ -103,6 +103,9 @@ function HomeSection() {
       
       <div className="mt-8">
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
+        <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-8">
+          Explore national initiatives and schemes designed to empower and uplift rural communities. Participate, contribute, and be a part of India's growth story.
+        </p>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           {governmentEvents.map((event) => (
             <a href={event.link} key={event.id} target="_blank" rel="noopener noreferrer" className="block">
