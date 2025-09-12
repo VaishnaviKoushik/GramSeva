@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
+import { Badge } from '@/components/ui/badge';
 
 // Mock data for event submissions.
 const mockSubmissions = [
@@ -169,21 +170,28 @@ export default function EventsPage() {
                     const eventSubmissions = submissionsByEvent[eventName] || [];
                     if (eventSubmissions.length === 0) return null;
 
+                    const submissionsByPanchayat = groupBy(eventSubmissions, 'panchayatName');
+
                     return (
                         <div key={`${eventName}-gallery`}>
                             <h2 className="text-3xl font-bold text-foreground mb-6">{eventName} Submissions</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {eventSubmissions.map(image => (
-                                <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                                    <Image 
-                                    src={image.imageUrl}
-                                    alt={`Event submission from ${image.panchayatName}`}
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    />
-                                </div>
-                                ))}
+                                {Object.entries(submissionsByPanchayat).flatMap(([panchayatName, panchayatSubmissions]) =>
+                                    panchayatSubmissions.map(image => (
+                                        <div key={image.id} className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 group">
+                                            <Image 
+                                                src={image.imageUrl}
+                                                alt={`Event submission from ${image.panchayatName}`}
+                                                width={400}
+                                                height={300}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <Badge variant="secondary">{image.panchayatName}</Badge>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     );
