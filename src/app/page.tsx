@@ -23,21 +23,21 @@ const carouselImages = PlaceHolderImages.filter(p => p.id.startsWith("carousel_"
 const governmentEvents = [
   {
     id: 1,
-    title: 'Digital India Week',
-    description: 'Join us for a week of events celebrating digital literacy and empowerment. Promoted by the Central Government.',
-    link: '#',
+    title: 'Swachh Bharat Mission (Gramin)',
+    description: 'Participate in the nation-wide cleanliness drive. Top performing villages get recognized at the national level.',
+    link: 'https://swachhbharatmission.gov.in/sbmcms/index.htm',
   },
   {
     id: 2,
-    title: 'State Health Mission Camp',
-    description: 'Free health check-ups and awareness programs organized by the State Health Department.',
-    link: '#',
+    title: 'National Water Mission',
+    description: 'Contribute to water conservation efforts. Individuals and Panchayats are awarded for innovative practices.',
+    link: 'http://nwm.gov.in/',
   },
   {
     id: 3,
-    title: 'Clean Village, Green Village',
-    description: 'A state-wide initiative to promote cleanliness and environmental conservation in our villages.',
-    link: '#',
+    title: 'Sansad Adarsh Gram Yojana',
+    description: 'Collaborate with your Member of Parliament to transform your village into a model village and get recognized for it.',
+    link: 'https://saanjhi.gov.in/',
   },
 ];
 
@@ -105,14 +105,16 @@ function HomeSection() {
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           {governmentEvents.map((event) => (
-            <Card key={event.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle>{event.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{event.description}</p>
-              </CardContent>
-            </Card>
+            <a href={event.link} key={event.id} target="_blank" rel="noopener noreferrer" className="block">
+              <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
+                <CardHeader>
+                  <CardTitle>{event.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{event.description}</p>
+                </CardContent>
+              </Card>
+            </a>
           ))}
         </div>
       </div>
