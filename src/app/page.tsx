@@ -219,7 +219,7 @@ function IssuesSection() {
   };
 
   return (
-    <section>
+    <section id="issues-section">
       <div className="max-w-3xl mx-auto">
         <Card>
           <CardHeader>
@@ -292,6 +292,16 @@ export default function Home() {
         return <HomeSection />;
     }
   };
+
+  const handleIssuesClick = () => {
+    setActiveSection('issues');
+    setTimeout(() => {
+      const issuesSection = document.getElementById('issues-section');
+      if (issuesSection) {
+        issuesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 0);
+  };
   
   return (
     <div className="bg-background min-h-screen">
@@ -302,7 +312,7 @@ export default function Home() {
           <Button variant="link" className="text-black text-lg" asChild>
             <Link href="/events">Events</Link>
           </Button>
-          <Button variant="link" className="text-black text-lg" onClick={() => setActiveSection('issues')}>Issues</Button>
+          <Button variant="link" className="text-black text-lg" onClick={handleIssuesClick}>Issues</Button>
           <Button variant="link" className="text-black text-lg" asChild>
             <Link href="/login">Login</Link>
           </Button>
@@ -319,5 +329,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
