@@ -114,18 +114,18 @@ export default function EventsPage() {
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
-        <div className="max-w-7xl mx-auto space-y-12">
+        <div className="max-w-7xl mx-auto space-y-4">
             {availableEvents.map((eventName) => (
-                <div key={eventName}>
-                    <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-3xl font-bold text-foreground">{eventName}</h2>
+                <div key={eventName} className="p-4 rounded-lg transition-colors hover:bg-muted/50">
+                    <div className="flex justify-between items-center">
+                            <h2 className="text-2xl font-bold text-foreground">{eventName}</h2>
                             <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
                             {formVisibleForEvent === eventName ? 'Close' : 'Join'}
                             </Button>
                     </div>
                     
                     {formVisibleForEvent === eventName && (
-                        <div className="max-w-2xl mx-auto mb-12">
+                        <div className="max-w-2xl mx-auto mt-6 mb-4">
                             <Card>
                             <CardHeader>
                                 <CardTitle>Submit Your Entry for {eventName}</CardTitle>
