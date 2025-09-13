@@ -16,6 +16,7 @@ import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 import { ReportWizard } from '@/components/report-wizard';
+import { CheckCircle, Users, BarChart } from 'lucide-react';
 
 type Section = 'home' | 'issues';
 
@@ -105,6 +106,50 @@ function HomeSection() {
         <h2 className="text-center text-2xl">Welcome to GramSeva 🌱</h2>
         <p className="text-center text-muted-foreground">
           Connecting villages with authorities to solve problems and celebrate progress.
+        </p>
+      </div>
+
+      <div className="mt-16 text-center">
+        <h2 className="text-3xl font-bold text-primary mb-4">How GramSeva Empowers You</h2>
+        <p className="text-muted-foreground max-w-3xl mx-auto">
+          GramSeva helps you connect with your local village authorities to solve problems and build a better community together. Here's how you can make a difference:
+        </p>
+      </div>
+      
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+          <Card className="text-center">
+              <CardHeader>
+                  <CheckCircle className="mx-auto h-12 w-12 text-accent" />
+                  <CardTitle className="mt-4">Report Local Issues</CardTitle>
+              </CardHeader>
+              <CardContent>
+                  <p>See a pothole or a broken streetlight? Snap a photo, add details, and report it directly to your Panchayat in minutes.</p>
+              </CardContent>
+          </Card>
+          <Card className="text-center">
+              <CardHeader>
+                  <Users className="mx-auto h-12 w-12 text-accent" />
+                  <CardTitle className="mt-4">Join Community Events</CardTitle>
+              </CardHeader>
+              <CardContent>
+                  <p>Participate in local events, cleanliness drives, and community initiatives. Together, we can make our villages shine.</p>
+              </CardContent>
+          </Card>
+          <Card className="text-center">
+              <CardHeader>
+                  <BarChart className="mx-auto h-12 w-12 text-accent" />
+                  <CardTitle className="mt-4">See The Impact</CardTitle>
+              </CardHeader>
+              <CardContent>
+                  <p>View success stories and impact reports from other villages. Get inspired by the positive changes happening all around.</p>
+              </CardContent>
+          </Card>
+      </div>
+
+      <div className="mt-12 max-w-4xl mx-auto text-center">
+        <h3 className="text-2xl font-bold">Real Change, Real Stories</h3>
+        <p className="text-muted-foreground mt-2">
+            "Thanks to GramSeva, the overflowing garbage bin in our area was cleared within two days of reporting. It's amazing to see such quick action!" <br />- A villager from Badami, Bagalkot
         </p>
       </div>
     </section>
@@ -342,7 +387,7 @@ export default function Home() {
   return (
     <div className="bg-background min-h-screen">
       <header className="bg-white text-black flex justify-between items-center p-4 px-10 border-b">
-        <h1 className="text-3xl font-bold text-black">GramSeva</h1>
+        <Link href="/" className="text-3xl font-bold text-black">GramSeva</Link>
         <nav className="flex items-center space-x-4">
           <Button variant="link" className="text-black text-lg" onClick={() => setActiveSection('home')}>Home</Button>
           <Button variant="link" className="text-black text-lg" asChild>
