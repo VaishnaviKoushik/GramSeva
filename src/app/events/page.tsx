@@ -116,9 +116,9 @@ export default function EventsPage() {
         </div>
         <div className="max-w-7xl mx-auto space-y-4">
             {availableEvents.map((eventName) => (
-                <div key={eventName} className="p-4 rounded-lg transition-colors hover:bg-muted/50">
+                <div key={eventName} className="p-4 rounded-lg transition-colors border border-transparent hover:bg-muted/50 hover:border-black">
                     <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-bold text-foreground">{eventName}</h2>
+                            <h2 className="text-xl font-bold text-foreground">{eventName}</h2>
                             <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
                             {formVisibleForEvent === eventName ? 'Close' : 'Join'}
                             </Button>
