@@ -112,6 +112,12 @@ const nextConfig: NextConfig = {
         hostname: 'cmogujarat.gov.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
