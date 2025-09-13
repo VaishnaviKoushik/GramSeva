@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 // Mock data for event submissions. In a real app, this would be fetched from a database.
 const mockSubmissions: Submission[] = [];
@@ -62,6 +64,18 @@ const leaderboardData = [
   { rank: 4, panchayat: 'Jamkhandi (Bagalkot)', score: 800 },
   { rank: 5, panchayat: 'Kakati (Belagavi)', score: 750 },
 ];
+
+const chartData = leaderboardData.map(item => ({ name: item.panchayat, value: item.score }));
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF'];
+
+const chartConfig = {
+  score: {
+    label: "Score",
+  },
+  ...Object.fromEntries(
+    chartData.map((item, index) => [item.name, { label: item.name, color: COLORS[index % COLORS.length] }])
+  ),
+}
 
 function EventsCarousel() {
   const plugin = useRef(
@@ -199,10 +213,7 @@ export default function EventsPage() {
       <main className="p-5">
         <EventsCarousel />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-2 space-y-4">
-                
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
             <div>
                 <Card>
                     <CardHeader>
@@ -231,6 +242,41 @@ export default function EventsPage() {
                                 ))}
                             </TableBody>
                         </Table>
+                    </CardContent>
+                </Card>
+            </div>
+            <div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Leaderboard Distribution</CardTitle>
+                        <CardDescription>Visual representation of the top panchayat scores.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={chartConfig} className="mx-auto aspect-square h-[300px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                <ChartTooltip
+                                    cursor={false}
+                                    content={<ChartTooltipContent hideLabel />}
+                                />
+                                <Pie
+                                    data={chartData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={100}
+                                    fill="#8884d8"
+                                    labelLine={false}
+                                >
+                                    {chartData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Legend />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </ChartContainer>
                     </CardContent>
                 </Card>
             </div>
