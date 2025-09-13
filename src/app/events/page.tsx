@@ -190,9 +190,6 @@ export default function EventsPage() {
                                                         fill
                                                         className="object-cover rounded-lg"
                                                     />
-                                                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 text-white">
-                                                        <Badge variant="secondary">{image.panchayatName}</Badge>
-                                                    </div>
                                                 </CardContent>
                                             </Card>
                                         </div>
