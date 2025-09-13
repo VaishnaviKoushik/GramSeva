@@ -23,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { StatusTracker, type ProblemStatus } from '@/components/ui/status-tracker';
 
 type Section = 'home' | 'issues';
 
@@ -176,6 +177,7 @@ type Problem = {
   aiResult: string;
   suggestedMeasures: string;
   imageUrl: string;
+  status: ProblemStatus;
 };
 
 const initialProblems: Problem[] = [
@@ -186,6 +188,7 @@ const initialProblems: Problem[] = [
       aiResult: 'Identified as road damage.',
       suggestedMeasures: 'Barricade the area and inform the local PWD for road surface repair.',
       imageUrl: 'https://picsum.photos/seed/problem1/400/300',
+      status: 'Under Review',
     },
     {
       _id: '2',
@@ -194,6 +197,7 @@ const initialProblems: Problem[] = [
       aiResult: 'Identified as electrical issue.',
       suggestedMeasures: 'Report to the electricity board and cordon off the area if there are exposed wires.',
       imageUrl: 'https://picsum.photos/seed/problem2/400/300',
+      status: 'Resolved',
     },
 ];
 
@@ -249,6 +253,7 @@ function IssuesSection() {
         imageUrl: photoDataUri,
         aiResult: `AI Identified as: ${problemCategory}`,
         suggestedMeasures,
+        status: 'Submitted',
       };
 
       setProblems(prevProblems => [newProblem, ...prevProblems]);
@@ -348,7 +353,7 @@ function IssuesSection() {
         <div className="space-y-4">
           {problems.map((p) => (
             <Card key={p._id}>
-              <CardContent className="p-4">
+              <CardContent className="p-4 space-y-3">
                 <h3 className="text-xl font-bold text-accent">{p.title}</h3>
                 <p><strong>Description:</strong> {p.description}</p>
                 <p><strong>AI Analysis:</strong> {p.aiResult}</p>
@@ -364,6 +369,10 @@ function IssuesSection() {
                     />
                    </div>
                 )}
+                <div>
+                  <h4 className="font-semibold mb-2">Current Status:</h4>
+                  <StatusTracker currentStatus={p.status} />
+                </div>
               </CardContent>
             </Card>
           ))}
