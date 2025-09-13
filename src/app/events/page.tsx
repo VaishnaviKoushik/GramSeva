@@ -86,6 +86,9 @@ function EventsCarousel() {
                     className="object-cover rounded-lg"
                     data-ai-hint={image['data-ai-hint']}
                 />
+                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center text-white rounded-lg">
+                    <h1 className="text-4xl font-bold mb-4">Participate and Make Your Gram Shine</h1>
+                </div>
             </div>
           </CarouselItem>
         ))}
@@ -196,9 +199,6 @@ export default function EventsPage() {
       <main className="p-5">
         <EventsCarousel />
 
-        <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
-        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-2 space-y-4">
                 {availableEvents.map((eventName) => (
