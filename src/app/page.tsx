@@ -543,6 +543,9 @@ export default function Home() {
                     <DropdownMenuItem>
                     <div onClick={() => handleIssuesClick()}>View All Issues</div>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/reported-issues">Reported Issues</Link>
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
           <Button variant="link" className="text-primary-foreground text-lg" asChild>

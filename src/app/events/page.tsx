@@ -214,6 +214,9 @@ export default function EventsPage() {
                     <DropdownMenuItem asChild>
                     <Link href="/#issues-section">View All Issues</Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/reported-issues">Reported Issues</Link>
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             <Button variant="link" className="text-primary-foreground text-lg" asChild>
