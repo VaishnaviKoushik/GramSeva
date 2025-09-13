@@ -14,31 +14,7 @@ import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
 
 // Mock data for event submissions.
-const mockSubmissions = [
-    { id: 1, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/flag1/400/300', panchayatName: 'Badami (Bagalkot)', imageHint: 'person flag' },
-    { id: 2, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://picsum.photos/seed/flag2/400/300', panchayatName: 'Badami (Bagalkot)', imageHint: 'Indian flag' },
-    { id: 3, event: 'Har Ghar Tiranga', panchayat: 'jamkhandi', imageUrl: 'https://picsum.photos/seed/flag3/400/300', panchayatName: 'Jamkhandi (Bagalkot)', imageHint: 'people flag' },
-    { id: 8, event: 'Har Ghar Tiranga', panchayat: 'gokak', imageUrl: 'https://picsum.photos/seed/flag4/400/300', panchayatName: 'Gokak (Belagavi)', imageHint: 'person holding flag' },
-    { id: 9, event: 'Har Ghar Tiranga', panchayat: 'athani', imageUrl: 'https://picsum.photos/seed/flag5/400/300', panchayatName: 'Athani (Belagavi)', imageHint: 'Indian flag' },
-    { id: 10, event: 'Har Ghar Tiranga', panchayat: 'bailhongal', imageUrl: 'https://picsum.photos/seed/hgt1/400/300', panchayatName: 'Bailhongal (Belagavi)', imageHint: 'flag' },
-    { id: 11, event: 'Har Ghar Tiranga', panchayat: 'sankeshwar', imageUrl: 'https://picsum.photos/seed/hgt2/400/300', panchayatName: 'Sankeshwar (Belagavi)', imageHint: 'tricolour' },
-    { id: 12, event: 'Har Ghar Tiranga', panchayat: 'kakati', imageUrl: 'https://picsum.photos/seed/hgt3/400/300', panchayatName: 'Kakati (Belagavi)', imageHint: 'celebration' },
-    { id: 13, event: 'Har Ghar Tiranga', panchayat: 'suggatta', imageUrl: 'https://picsum.photos/seed/hgt4/400/300', panchayatName: 'Suggatta (Bangalore Urban)', imageHint: 'Indian flag' },
-    { id: 14, event: 'Har Ghar Tiranga', panchayat: 'adakamaranahalli', imageUrl: 'https://picsum.photos/seed/hgt5/400/300', panchayatName: 'Adakamaranahalli (Bangalore Urban)', imageHint: 'parade' },
-    { id: 15, event: 'Har Ghar Tiranga', panchayat: 'munnur', imageUrl: 'https://picsum.photos/seed/hgt6/400/300', panchayatName: 'Munnur (Dakshina Kannada)', imageHint: 'flag people' },
-    { id: 16, event: 'Har Ghar Tiranga', panchayat: 'yelwal', imageUrl: 'https://picsum.photos/seed/flag7/400/300', panchayatName: 'Yelwal (Mysore)', imageHint: 'child flag' },
-    { id: 17, event: 'Har Ghar Tiranga', panchayat: 'hampapura', imageUrl: 'https://picsum.photos/seed/flag8/400/300', panchayatName: 'Hampapura (Mysore)', imageHint: 'woman flag' },
-    { id: 18, event: 'Har Ghar Tiranga', panchayat: 'oorukere', imageUrl: 'https://picsum.photos/seed/flag9/400/300', panchayatName: 'Oorukere (Tumakuru)', imageHint: 'man flag' },
-    { id: 19, event: 'Har Ghar Tiranga', panchayat: 'ayanur', imageUrl: 'https://picsum.photos/seed/flag10/400/300', panchayatName: 'Ayanur (Shivamogga)', imageHint: 'crowd flag' },
-    { id: 20, event: 'Har Ghar Tiranga', panchayat: 'badami', imageUrl: 'https://images.cnbctv18.com/wp-content/uploads/2022/08/Har-Ghar-Tiranga-Govt-of-India-1019x573.jpg', panchayatName: 'Badami (Bagalkot)', imageHint: 'Indian flag' },
-    { id: 21, event: 'Har Ghar Tiranga', panchayat: 'gokak', imageUrl: 'https://www.thehawk.in/public/news/public/uploads/images/1660312061_ACF13EC2-E0F6-464A-A5A5-D0308C697A0A.jpeg', panchayatName: 'Gokak (Belagavi)', imageHint: 'people flag' },
-    { id: 22, event: 'Har Ghar Tiranga', panchayat: 'athani', imageUrl: 'https://images.news18.com/ibnlive/uploads/2022/08/har-ghar-tiranga-165952674316x9.jpg', panchayatName: 'Athani (Belagavi)', imageHint: 'person holding flag' },
-    { id: 23, event: 'Har Ghar Tiranga', panchayat: 'suggatta', imageUrl: 'https://static.theprint.in/wp-content/uploads/2022/08/Tiranga-Top-shot-ANI.jpg', panchayatName: 'Suggatta (Bangalore Urban)', imageHint: 'Indian flag' },
-    { id: 24, event: 'Har Ghar Tiranga', panchayat: 'adakamaranahalli', imageUrl: 'https://www.jagranimages.com/images/newimg/10082022/10_08_2022-tiranga_22970515.webp', panchayatName: 'Adakamaranahalli (Bangalore Urban)', imageHint: 'students flags' },
-    { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://media.geeksforgeeks.org/wp-content/uploads/20230728153232/gfg-50.jpg', panchayatName: 'Athani (Belagavi)' },
-    { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202310/swachh-bharat-mission-013322428-16x9.jpg?VersionId=T.8i8n3jCgVcr2wY30m5F8z46_7mU9xP&size=690:388', panchayatName: 'Athani (Belagavi)' },
-    { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Gokak (Belagavi)' },
-    { id: 7, event: 'Plantation Drive', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-J3-J3-J3-J3-J3-J3-J3-J3-J3-J3-J&s', panchayatName: 'Gokak (Belagavi)' },
+const mockSubmissions: Submission[] = [
 ];
 
 const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
