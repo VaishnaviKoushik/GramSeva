@@ -15,6 +15,7 @@ import { panchayats } from '@/lib/panchayats';
 import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image';
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
+import { ReportWizard } from '@/components/report-wizard';
 
 type Section = 'home' | 'issues';
 
@@ -220,35 +221,48 @@ function IssuesSection() {
 
   return (
     <section id="issues-section">
-      <div className="max-w-3xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>Report a Problem</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-              <Input name="title" placeholder="Problem Title" required />
-              <Textarea name="description" placeholder="Describe the issue" required />
-              <Select name="panchayat" required>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your Panchayat" />
-                </SelectTrigger>
-                <SelectContent>
-                  {panchayats.map((panchayat) => (
-                    <SelectItem key={panchayat.id} value={panchayat.id}>
-                      {panchayat.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Input type="file" name="image" accept="image/*" required />
-              <Button type="submit" className="w-full bg-accent hover:bg-accent/90" disabled={isLoading}>
-                {isLoading ? loadingMessage : 'Submit'}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Report a Problem</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                <Input name="title" placeholder="Problem Title" required />
+                <Textarea name="description" placeholder="Describe the issue" required />
+                <Select name="panchayat" required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your Panchayat" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {panchayats.map((panchayat) => (
+                      <SelectItem key={panchayat.id} value={panchayat.id}>
+                        {panchayat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input type="file" name="image" accept="image/*" required />
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? loadingMessage : 'Submit'}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+        <div>
+           <Card>
+              <CardHeader>
+                <CardTitle>Let AI help you</CardTitle>
+              </CardHeader>
+              <CardContent>
+                  <ReportWizard />
+              </CardContent>
+            </Card>
+        </div>
       </div>
+
 
       <div className="max-w-4xl mx-auto mt-8">
         <h2 className="text-2xl font-bold text-center mb-4">Reported Problems</h2>
