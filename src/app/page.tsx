@@ -223,11 +223,11 @@ function IssuesSection() {
     <section id="issues-section">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
         <div>
-          <Card>
+          <Card className="h-full flex flex-col">
             <CardHeader>
               <CardTitle>Report a Problem</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow">
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                 <Input name="title" placeholder="Problem Title" required />
                 <Textarea name="description" placeholder="Describe the issue" required />
@@ -252,11 +252,11 @@ function IssuesSection() {
           </Card>
         </div>
         <div>
-           <Card>
+           <Card className="h-full flex flex-col">
               <CardHeader>
                 <CardTitle>Let AI help you</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                   <ReportWizard />
               </CardContent>
             </Card>

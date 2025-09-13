@@ -370,7 +370,7 @@ export function ReportWizard() {
   };
 
   return (
-    <Card className="w-full shadow-lg">
+    <Card className="w-full shadow-lg h-full flex flex-col">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">
           {step === 'upload' && 'Step 1: Upload Photo'}
@@ -385,7 +385,7 @@ export function ReportWizard() {
             'Your report is ready. Copy it or send it via email.'}
         </CardDescription>
       </CardHeader>
-      <CardContent className="min-h-[250px] flex items-center justify-center">
+      <CardContent className="min-h-[250px] flex-grow flex items-center justify-center">
         {renderContent()}
       </CardContent>
       <CardFooter>
