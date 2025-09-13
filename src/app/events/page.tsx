@@ -5,18 +5,33 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
 
 // Mock data for event submissions. In a real app, this would be fetched from a database.
 const mockSubmissions: Submission[] = [];
 
 const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
+
+const carouselImages = [
+    {
+        src: "https://sevalaya.org/wp-content/uploads/2023/04/waste-management-2-scaled.jpg",
+        alt: "Community event for waste management",
+        "data-ai-hint": "waste management community"
+    },
+    {
+        src: "https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg",
+        alt: "Rural development initiative",
+        "data-ai-hint": "rural development"
+    }
+];
 
 type Submission = {
     id: number;
@@ -26,6 +41,39 @@ type Submission = {
     panchayatName: string;
     imageHint?: string;
 };
+
+function EventsCarousel() {
+  const plugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  );
+
+  return (
+    <Carousel
+      plugins={[plugin.current]}
+      className="w-full mb-12"
+      onMouseEnter={plugin.current.stop}
+      onMouseLeave={plugin.current.reset}
+    >
+      <CarouselContent>
+        {carouselImages.map((image, index) => (
+          <CarouselItem key={index}>
+            <div className="relative w-full h-96">
+                <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover rounded-lg"
+                    data-ai-hint={image['data-ai-hint']}
+                />
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  );
+}
 
 export default function EventsPage() {
   const { toast } = useToast();
@@ -110,15 +158,8 @@ export default function EventsPage() {
       </header>
       
       <main className="p-5">
-        <div className="relative w-full h-96 mb-12">
-            <Image
-                src="https://sevalaya.org/wp-content/uploads/2023/04/waste-management-2-scaled.jpg"
-                alt="Community event"
-                fill
-                className="object-cover rounded-lg"
-                data-ai-hint="waste management community"
-            />
-        </div>
+        <EventsCarousel />
+
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
