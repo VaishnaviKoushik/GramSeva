@@ -111,7 +111,7 @@ export default function EventsPage() {
       <main className="p-5">
         <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[400px] mb-8">
             <Image
-                src="https://cmogujarat.gov.in/wp-content/uploads/2024/10/Gujarat-CM-at-Swachh-Bharat-Divas-Celebrations-2024-Porbandar-8.jpg"
+                src="https://www.thehawk.in/files-bank/images/2022/10/02/4-6019.jpg"
                 alt="Swachh Bharat Mission"
                 fill
                 className="object-cover"
