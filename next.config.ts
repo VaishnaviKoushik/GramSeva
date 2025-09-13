@@ -106,6 +106,12 @@ const nextConfig: NextConfig = {
         hostname: 'niti.gov.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cmogujarat.gov.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
