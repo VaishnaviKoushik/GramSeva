@@ -2,6 +2,12 @@
 {
   "placeholderImages": [
     {
+      "id": "event_tiranga",
+      "description": "Har Ghar Tiranga",
+      "imageUrl": "https://c.ndtvimg.com/2022-08/m8n6g7g_har-ghar-tiranga_625x300_13_August_22.jpg",
+      "imageHint": "indian flag people"
+    },
+    {
       "id": "carousel_1",
       "description": "Technology's role in driving rural development",
       "imageUrl": "https://ciiblog.in/wp-content/uploads/2024/03/Cover-23-July-Technology-Role-in-Driving-Rural-Development.png",
@@ -18,12 +24,6 @@
       "description": "A community gathering under a large tree",
       "imageUrl": "https://picsum.photos/seed/india-village/1000/200",
       "imageHint": "community gathering"
-    },
-    {
-      "id": "event_tiranga",
-      "description": "Har Ghar Tiranga",
-      "imageUrl": "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202208/Har_Ghar_Tiranga_2_1200x768.jpeg?size=690:388",
-      "imageHint": "indian flag people"
     },
     {
       "id": "event_swachh",
