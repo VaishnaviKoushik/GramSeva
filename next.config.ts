@@ -82,6 +82,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.thehawk.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.news18.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
