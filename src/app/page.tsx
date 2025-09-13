@@ -223,7 +223,7 @@ function IssuesSection() {
     <section id="issues-section">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
         <div>
-          <Card className="h-full flex flex-col">
+          <Card className="h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
             <CardHeader>
               <CardTitle>Report a Problem</CardTitle>
             </CardHeader>
@@ -252,7 +252,7 @@ function IssuesSection() {
           </Card>
         </div>
         <div>
-           <Card className="h-full flex flex-col">
+           <Card className="h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
               <CardHeader>
                 <CardTitle>Let AI help you</CardTitle>
               </CardHeader>
