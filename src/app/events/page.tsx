@@ -41,14 +41,14 @@ function EventsCarousel() {
                 className="w-full"
             >
                 <CarouselContent>
-                    {carouselEventImages.map((image) => (
+                    {carouselEventImages.map((image, index) => (
                         <CarouselItem key={image.id}>
                             <div className="relative h-[300px] w-full">
                                 <Image
                                     src={image.imageUrl}
                                     alt={image.description}
                                     fill
-                                    priority={image.id === 'event_tiranga'}
+                                    priority={index === 0}
                                     className="object-cover rounded-lg"
                                     data-ai-hint={image.imageHint}
                                 />
