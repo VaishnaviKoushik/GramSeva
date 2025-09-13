@@ -93,14 +93,15 @@ export default function EventsPage() {
       const photoDataUri = await fileToDataUri(imageFile);
       
       const newSubmission: Submission = {
-        id: submissions.length + 1,
+        id: mockSubmissions.length + 1,
         event: eventName,
         panchayat: panchayat.id,
         panchayatName: panchayat.name,
         imageUrl: photoDataUri,
       };
       
-      setSubmissions(prev => [newSubmission, ...prev]);
+      mockSubmissions.unshift(newSubmission);
+      setSubmissions([...mockSubmissions]);
 
       toast({
         title: '✅ Submission Successful!',
