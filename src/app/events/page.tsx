@@ -243,6 +243,11 @@ export default function EventsPage() {
                             </TableBody>
                         </Table>
                     </CardContent>
+                    <CardFooter>
+                        <Button className="w-full" asChild>
+                            <Link href="/upcoming-events">Join an Event</Link>
+                        </Button>
+                    </CardFooter>
                 </Card>
             </div>
             <div>
