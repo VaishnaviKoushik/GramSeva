@@ -48,6 +48,9 @@ export default function FeedbacksPage() {
                   <Link href="/events">All Events</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
+                  <Link href="/upcoming-events">Upcoming Events</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/feedbacks">Feedbacks</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
