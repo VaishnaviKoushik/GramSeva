@@ -109,6 +109,15 @@ export default function EventsPage() {
       </header>
       
       <main className="p-5">
+        <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[400px] mb-8">
+            <Image
+                src="https://niti.gov.in/sites/default/files/2023-07/swachh-bharat-mission.jpg"
+                alt="Swachh Bharat Mission"
+                fill
+                className="object-cover"
+                data-ai-hint="clean india mission"
+            />
+        </div>
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
