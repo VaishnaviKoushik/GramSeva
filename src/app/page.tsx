@@ -16,7 +16,7 @@ import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 import { ReportWizard } from '@/components/report-wizard';
-import { CheckCircle, Users, BarChart, ChevronDown, Eye } from 'lucide-react';
+import { CheckCircle, Users, BarChart, ChevronDown, Eye, Calendar, MapPin } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,6 +49,30 @@ const governmentEvents = [
     description: 'Collaborate with your Member of Parliament to transform your village into a model village and get recognized for it.',
     link: 'https://saanjhi.gov.in/',
   },
+];
+
+const upcomingEvents = [
+    {
+      id: 1,
+      title: 'Plantation Drive',
+      date: 'August 15, 2025',
+      location: 'Village Community Hall',
+      description: 'Join us in planting 100 new saplings to make our village greener and celebrate Independence Day.',
+    },
+    {
+      id: 2,
+      title: 'Swachh Bharat Abhiyan',
+      date: 'October 2, 2025',
+      location: 'Across the Village',
+      description: 'A massive cleanliness drive to honor Mahatma Gandhi\'s birthday. Let\'s clean our streets together.',
+    },
+    {
+      id: 3,
+      title: 'Gram Sabha Meeting',
+      date: 'September 5, 2025',
+      location: 'Panchayat Office',
+      description: 'An open meeting for all villagers to discuss development projects and local governance.',
+    },
 ];
 
 type Problem = {
@@ -172,6 +196,38 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
               <CardFooter>
                 <Button variant="outline" className="w-full" onClick={() => onIssuesClick(issue._id)}>
                   <Eye className="mr-2" /> View Details
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+       <div className="mt-16">
+        <h2 className="text-center text-3xl font-bold text-primary mb-4">Upcoming Community Events</h2>
+        <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-8">
+          Get involved in local initiatives. Participate, connect with your neighbors, and help build a stronger community.
+        </p>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          {upcomingEvents.map((event) => (
+            <Card key={event.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
+              <CardHeader>
+                <CardTitle>{event.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-grow space-y-2">
+                <div className="flex items-center text-muted-foreground">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    <span>{event.date}</span>
+                </div>
+                <div className="flex items-center text-muted-foreground">
+                    <MapPin className="mr-2 h-4 w-4" />
+                    <span>{event.location}</span>
+                </div>
+                <p className="text-muted-foreground pt-2">{event.description}</p>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                    <Link href="/events">Join Event</Link>
                 </Button>
               </CardFooter>
             </Card>
