@@ -100,6 +100,12 @@ const nextConfig: NextConfig = {
         hostname: 'media.assettype.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'niti.gov.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
