@@ -49,7 +49,7 @@ const governmentEvents = [
   },
 ];
 
-function Carousel() {
+function Carousel({ onCTAClick }: { onCTAClick: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -78,14 +78,21 @@ function Carousel() {
           </div>
         ))}
       </div>
+      <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center text-white">
+          <h1 className="text-4xl font-bold mb-4">Empowering Our Villages, Together</h1>
+          <p className="text-lg mb-8">Your voice can bring the change. Report local issues and help build a better community.</p>
+          <Button size="lg" onClick={onCTAClick}>
+            Report an Issue
+          </Button>
+      </div>
     </div>
   );
 }
 
-function HomeSection() {
+function HomeSection({ onIssuesClick }: { onIssuesClick: () => void }) {
   return (
     <section>
-      <Carousel />
+      <Carousel onCTAClick={onIssuesClick} />
       
       <div className="mt-8">
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
@@ -372,11 +379,11 @@ export default function Home() {
   const renderSection = () => {
     switch (activeSection) {
       case 'home':
-        return <HomeSection />;
+        return <HomeSection onIssuesClick={handleIssuesClick} />;
       case 'issues':
         return <IssuesSection />;
       default:
-        return <HomeSection />;
+        return <HomeSection onIssuesClick={handleIssuesClick} />;
     }
   };
 
