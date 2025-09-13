@@ -104,9 +104,6 @@ export default function ReportedIssuesPage() {
                     <Link href="/#issues-section">Report a New Issue</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                    <Link href="/#issues-section">View All Issues</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
                       <Link href="/reported-issues">Reported Issues</Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>

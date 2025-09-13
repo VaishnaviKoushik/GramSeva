@@ -23,7 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { StatusTracker, type ProblemStatus } from '@/components/ui/status-tracker';
+import { type ProblemStatus } from '@/components/ui/status-tracker';
 import { Badge } from '@/components/ui/badge';
 
 type Section = 'home' | 'issues';
@@ -311,7 +311,7 @@ const problemTitles = [
 ];
 
 
-function IssuesSection({problems, setProblems}: {problems: Problem[], setProblems: React.Dispatch<React.SetStateAction<Problem[]>>}) {
+function IssuesSection({setProblems}: {setProblems: React.Dispatch<React.SetStateAction<Problem[]>>}) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -457,7 +457,7 @@ export default function Home() {
       case 'home':
         return <HomeSection onIssuesClick={handleIssuesClick} problems={problems} />;
       case 'issues':
-        return <IssuesSection problems={problems} setProblems={setProblems} />;
+        return <IssuesSection setProblems={setProblems} />;
       default:
         return <HomeSection onIssuesClick={handleIssuesClick} problems={problems} />;
     }
@@ -507,9 +507,6 @@ export default function Home() {
                 <DropdownMenuContent>
                     <DropdownMenuItem>
                     <div onClick={() => handleIssuesClick()}>Report a New Issue</div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                    <div onClick={() => handleIssuesClick()}>View All Issues</div>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/reported-issues">Reported Issues</Link>
