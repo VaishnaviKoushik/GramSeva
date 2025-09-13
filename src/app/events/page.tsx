@@ -243,11 +243,6 @@ export default function EventsPage() {
                             </TableBody>
                         </Table>
                     </CardContent>
-                    <CardFooter>
-                        <Button className="w-full" asChild>
-                            <Link href="/upcoming-events">Join an Event</Link>
-                        </Button>
-                    </CardFooter>
                 </Card>
             </div>
             <div>
@@ -285,6 +280,12 @@ export default function EventsPage() {
                     </CardContent>
                 </Card>
             </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-8 text-center">
+            <Button asChild size="lg">
+                <Link href="/upcoming-events">Join an Event</Link>
+            </Button>
         </div>
 
         <div className="mt-16 space-y-12">
