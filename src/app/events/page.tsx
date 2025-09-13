@@ -20,7 +20,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 
 // Mock data for event submissions. In a real app, this would be fetched from a database.
 const mockSubmissions: Submission[] = [];
@@ -53,6 +54,14 @@ type Submission = {
     panchayatName: string;
     imageHint?: string;
 };
+
+const leaderboardData = [
+  { rank: 1, panchayat: 'Badami (Bagalkot)', score: 1250, badge: 'Gold' },
+  { rank: 2, panchayat: 'Anekal (Bangalore Urban)', score: 1100, badge: 'Silver' },
+  { rank: 3, panchayat: 'Hoskote (Bangalore Rural)', score: 950, badge: 'Bronze' },
+  { rank: 4, panchayat: 'Jamkhandi (Bagalkot)', score: 800 },
+  { rank: 5, panchayat: 'Kakati (Belagavi)', score: 750 },
+];
 
 function EventsCarousel() {
   const plugin = useRef(
@@ -187,83 +196,115 @@ export default function EventsPage() {
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
-        <div className="max-w-7xl mx-auto space-y-4">
-            {availableEvents.map((eventName) => (
-                <div key={eventName} className="p-4 rounded-lg transition-colors border border-transparent hover:bg-muted/50 hover:border-black">
-                    <div className="flex justify-between items-center">
-                            <h2 className="text-xl font-bold text-foreground">{eventName}</h2>
-                            <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
-                            {formVisibleForEvent === eventName ? 'Close' : 'Join'}
-                            </Button>
-                    </div>
-                    
-                    {formVisibleForEvent === eventName && (
-                        <div className="max-w-2xl mx-auto mt-6 mb-4">
-                            <Card>
-                            <CardHeader>
-                                <CardTitle>Submit Your Entry for {eventName}</CardTitle>
-                                <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                                <input type="hidden" name="event" value={eventName} />
-                                <Select name="panchayat" required>
-                                    <SelectTrigger>
-                                    <SelectValue placeholder="Select your Panchayat" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                    {panchayats.map((panchayat) => (
-                                        <SelectItem key={panchayat.id} value={panchayat.id}>
-                                        {panchayat.name}
-                                        </SelectItem>
-                                    ))}
-                                    </SelectContent>
-                                </Select>
-                                <Input type="file" name="image" accept="image/*" required />
-                                <Button type="submit" className="w-full" disabled={isLoading}>
-                                    {isLoading ? 'Uploading...' : 'Upload Photo'}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-2 space-y-4">
+                {availableEvents.map((eventName) => (
+                    <div key={eventName} className="p-4 rounded-lg transition-colors border border-transparent hover:bg-muted/50 hover:border-black">
+                        <div className="flex justify-between items-center">
+                                <h2 className="text-xl font-bold text-foreground">{eventName}</h2>
+                                <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
+                                {formVisibleForEvent === eventName ? 'Close' : 'Join'}
                                 </Button>
-                                </form>
-                            </CardContent>
-                            </Card>
                         </div>
-                    )}
-                </div>
-            ))}
+                        
+                        {formVisibleForEvent === eventName && (
+                            <div className="max-w-2xl mx-auto mt-6 mb-4">
+                                <Card>
+                                <CardHeader>
+                                    <CardTitle>Submit Your Entry for {eventName}</CardTitle>
+                                    <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                                    <input type="hidden" name="event" value={eventName} />
+                                    <Select name="panchayat" required>
+                                        <SelectTrigger>
+                                        <SelectValue placeholder="Select your Panchayat" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                        {panchayats.map((panchayat) => (
+                                            <SelectItem key={panchayat.id} value={panchayat.id}>
+                                            {panchayat.name}
+                                            </SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <Input type="file" name="image" accept="image/*" required />
+                                    <Button type="submit" className="w-full" disabled={isLoading}>
+                                        {isLoading ? 'Uploading...' : 'Upload Photo'}
+                                    </Button>
+                                    </form>
+                                </CardContent>
+                                </Card>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Top Performing Panchayats</CardTitle>
+                        <CardDescription>Leaderboard based on event participation and community engagement.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                <TableHead>Rank</TableHead>
+                                <TableHead>Panchayat</TableHead>
+                                <TableHead>Score</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {leaderboardData.map((item) => (
+                                <TableRow key={item.rank}>
+                                    <TableCell className="font-medium">{item.rank}</TableCell>
+                                    <TableCell>
+                                        {item.panchayat}
+                                        {item.badge && <Badge variant="secondary" className="ml-2">{item.badge}</Badge>}
+                                    </TableCell>
+                                    <TableCell>{item.score}</TableCell>
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
 
-            <div className="mt-16 space-y-12">
-                {availableEvents.map((eventName) => {
-                    const eventSubmissions = submissionsByEvent[eventName] || [];
-                    if (eventSubmissions.length === 0) return null;
-                    const animationDuration = eventSubmissions.length * 5;
+        <div className="mt-16 space-y-12">
+            {availableEvents.map((eventName) => {
+                const eventSubmissions = submissionsByEvent[eventName] || [];
+                if (eventSubmissions.length === 0) return null;
+                const animationDuration = eventSubmissions.length * 5;
 
-                    return (
-                        <div key={`${eventName}-gallery`}>
-                            <h2 className="text-2xl font-bold text-center mb-4">{eventName}</h2>
-                            <div className="panorama-slider" style={{'--duration': `${animationDuration}s`} as React.CSSProperties}>
-                                <div className="panorama-track">
-                                    {[...eventSubmissions, ...eventSubmissions].map((image, index) => (
-                                        <div key={`${image.id}-${index}`} className="panorama-item">
-                                            <Card>
-                                                <CardContent className="flex aspect-square items-center justify-center p-2 relative">
-                                                    <Image 
-                                                        src={image.imageUrl}
-                                                        alt={`Event submission from ${image.panchayatName}`}
-                                                        fill
-                                                        className="object-cover rounded-lg"
-                                                        data-ai-hint={image.imageHint}
-                                                    />
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    ))}
-                                </div>
+                return (
+                    <div key={`${eventName}-gallery`}>
+                        <h2 className="text-2xl font-bold text-center mb-4">{eventName}</h2>
+                        <div className="panorama-slider" style={{'--duration': `${animationDuration}s`} as React.CSSProperties}>
+                            <div className="panorama-track">
+                                {[...eventSubmissions, ...eventSubmissions].map((image, index) => (
+                                    <div key={`${image.id}-${index}`} className="panorama-item">
+                                        <Card>
+                                            <CardContent className="flex aspect-square items-center justify-center p-2 relative">
+                                                <Image 
+                                                    src={image.imageUrl}
+                                                    alt={`Event submission from ${image.panchayatName}`}
+                                                    fill
+                                                    className="object-cover rounded-lg"
+                                                    data-ai-hint={image.imageHint}
+                                                />
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    );
-                })}
-            </div>
-
+                    </div>
+                );
+            })}
         </div>
       </main>
 
