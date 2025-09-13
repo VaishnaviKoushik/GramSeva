@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -16,7 +16,7 @@ import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 import { ReportWizard } from '@/components/report-wizard';
-import { CheckCircle, Users, BarChart, ChevronDown } from 'lucide-react';
+import { CheckCircle, Users, BarChart, ChevronDown, Eye } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { StatusTracker, type ProblemStatus } from '@/components/ui/status-tracker';
+import { Badge } from '@/components/ui/badge';
 
 type Section = 'home' | 'issues';
 
@@ -48,6 +49,46 @@ const governmentEvents = [
     description: 'Collaborate with your Member of Parliament to transform your village into a model village and get recognized for it.',
     link: 'https://saanjhi.gov.in/',
   },
+];
+
+type Problem = {
+  _id: string;
+  title: string;
+  description: string;
+  aiResult: string;
+  suggestedMeasures: string;
+  imageUrl: string;
+  status: ProblemStatus;
+};
+
+const initialProblems: Problem[] = [
+    {
+      _id: '1',
+      title: 'Pothole on Main Street',
+      description: 'A large pothole is causing issues for traffic near the market area. It becomes dangerous after rainfall.',
+      aiResult: 'Identified as road damage.',
+      suggestedMeasures: 'Barricade the area and inform the local PWD for road surface repair.',
+      imageUrl: 'https://picsum.photos/seed/problem1/400/300',
+      status: 'Under Review',
+    },
+    {
+      _id: '2',
+      title: 'Broken Streetlight',
+      description: 'The streetlight at the corner of Oak and Pine is out, making the area very dark and unsafe at night.',
+      aiResult: 'Identified as electrical issue.',
+      suggestedMeasures: 'Report to the electricity board and cordon off the area if there are exposed wires.',
+      imageUrl: 'https://picsum.photos/seed/problem2/400/300',
+      status: 'Resolved',
+    },
+    {
+      _id: '3',
+      title: 'Overflowing Garbage Bin',
+      description: 'The main garbage bin near the bus stop has not been cleared for over a week and is overflowing.',
+      aiResult: 'Identified as sanitation issue.',
+      suggestedMeasures: 'Arrange for immediate garbage collection and consider placing an additional bin.',
+      imageUrl: 'https://picsum.photos/seed/problem3/400/300',
+      status: 'Assigned',
+    },
 ];
 
 function Carousel({ onCTAClick }: { onCTAClick: () => void }) {
@@ -90,11 +131,54 @@ function Carousel({ onCTAClick }: { onCTAClick: () => void }) {
   );
 }
 
-function HomeSection({ onIssuesClick }: { onIssuesClick: () => void }) {
+function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: string) => void, problems: Problem[] }) {
+  const latestIssues = problems.slice(0, 3);
+
+  const getStatusVariant = (status: ProblemStatus): 'default' | 'secondary' | 'destructive' | 'outline' => {
+    switch (status) {
+        case 'Resolved':
+            return 'default';
+        case 'Assigned':
+        case 'Under Review':
+            return 'secondary';
+        case 'Submitted':
+            return 'outline';
+        default:
+            return 'outline';
+    }
+  };
+
   return (
     <section>
-      <Carousel onCTAClick={onIssuesClick} />
+      <Carousel onCTAClick={() => onIssuesClick()} />
       
+      <div className="mt-16">
+        <h2 className="text-center text-3xl font-bold text-primary mb-4">Latest Issues Reported</h2>
+        <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-8">
+          See the latest issues reported by vigilant members of the community. Your participation makes a difference.
+        </p>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          {latestIssues.map((issue) => (
+            <Card key={issue._id} className="shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <CardTitle>{issue.title}</CardTitle>
+                  <Badge variant={getStatusVariant(issue.status)}>{issue.status}</Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <p className="text-muted-foreground line-clamp-3">{issue.description}</p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" className="w-full" onClick={() => onIssuesClick(issue._id)}>
+                  <Eye className="mr-2" /> View Details
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
+
       <div className="mt-8">
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
         <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -170,37 +254,6 @@ function HomeSection({ onIssuesClick }: { onIssuesClick: () => void }) {
   );
 }
 
-type Problem = {
-  _id: string;
-  title: string;
-  description: string;
-  aiResult: string;
-  suggestedMeasures: string;
-  imageUrl: string;
-  status: ProblemStatus;
-};
-
-const initialProblems: Problem[] = [
-    {
-      _id: '1',
-      title: 'Pothole on Main Street',
-      description: 'A large pothole is causing issues for traffic.',
-      aiResult: 'Identified as road damage.',
-      suggestedMeasures: 'Barricade the area and inform the local PWD for road surface repair.',
-      imageUrl: 'https://picsum.photos/seed/problem1/400/300',
-      status: 'Under Review',
-    },
-    {
-      _id: '2',
-      title: 'Broken Streetlight',
-      description: 'The streetlight at the corner of Oak and Pine is out.',
-      aiResult: 'Identified as electrical issue.',
-      suggestedMeasures: 'Report to the electricity board and cordon off the area if there are exposed wires.',
-      imageUrl: 'https://picsum.photos/seed/problem2/400/300',
-      status: 'Resolved',
-    },
-];
-
 const problemTitles = [
   'Pothole',
   'Overflowing Bin',
@@ -212,9 +265,8 @@ const problemTitles = [
 ];
 
 
-function IssuesSection() {
+function IssuesSection({problems, setProblems}: {problems: Problem[], setProblems: React.Dispatch<React.SetStateAction<Problem[]>>}) {
   const { toast } = useToast();
-  const [problems, setProblems] = useState<Problem[]>(initialProblems);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
@@ -352,7 +404,7 @@ function IssuesSection() {
         <h2 className="text-2xl font-bold text-center mb-4">Reported Problems</h2>
         <div className="space-y-4">
           {problems.map((p) => (
-            <Card key={p._id}>
+            <Card key={p._id} id={`issue-${p._id}`}>
               <CardContent className="p-4 space-y-3">
                 <h3 className="text-xl font-bold text-accent">{p.title}</h3>
                 <p><strong>Description:</strong> {p.description}</p>
@@ -384,25 +436,27 @@ function IssuesSection() {
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>('home');
+  const [problems, setProblems] = useState<Problem[]>(initialProblems);
 
   const renderSection = () => {
     switch (activeSection) {
       case 'home':
-        return <HomeSection onIssuesClick={handleIssuesClick} />;
+        return <HomeSection onIssuesClick={handleIssuesClick} problems={problems} />;
       case 'issues':
-        return <IssuesSection />;
+        return <IssuesSection problems={problems} setProblems={setProblems} />;
       default:
-        return <HomeSection onIssuesClick={handleIssuesClick} />;
+        return <HomeSection onIssuesClick={handleIssuesClick} problems={problems} />;
     }
   };
 
-  const handleIssuesClick = () => {
+  const handleIssuesClick = (issueId?: string) => {
     setActiveSection('issues');
     setTimeout(() => {
-      const issuesSection = document.getElementById('issues-section');
-      if (issuesSection) {
-        issuesSection.scrollIntoView({ behavior: 'smooth' });
-      }
+        const targetId = issueId ? `issue-${issueId}` : 'issues-section';
+        const element = document.getElementById(targetId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }, 0);
   };
   
@@ -427,7 +481,7 @@ export default function Home() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="link" className="text-black text-lg" onClick={handleIssuesClick}>Issues</Button>
+          <Button variant="link" className="text-black text-lg" onClick={() => handleIssuesClick()}>Issues</Button>
           <Button variant="link" className="text-black text-lg" asChild>
             <Link href="/login">Login</Link>
           </Button>
@@ -444,3 +498,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
