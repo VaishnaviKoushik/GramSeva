@@ -88,6 +88,12 @@ const nextConfig: NextConfig = {
         hostname: 'images.news18.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.jagranimages.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
