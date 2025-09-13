@@ -30,6 +30,11 @@ const carouselImages = [
         src: "https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg",
         alt: "Rural development initiative",
         "data-ai-hint": "rural development"
+    },
+    {
+        src: "https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg",
+        alt: "Rural development initiative",
+        "data-ai-hint": "rural development community"
     }
 ];
 
