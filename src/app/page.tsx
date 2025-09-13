@@ -16,7 +16,13 @@ import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 import { ReportWizard } from '@/components/report-wizard';
-import { CheckCircle, Users, BarChart } from 'lucide-react';
+import { CheckCircle, Users, BarChart, ChevronDown } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 type Section = 'home' | 'issues';
 
@@ -390,9 +396,18 @@ export default function Home() {
         <Link href="/" className="text-3xl font-bold text-black">GramSeva</Link>
         <nav className="flex items-center space-x-4">
           <Button variant="link" className="text-black text-lg" onClick={() => setActiveSection('home')}>Home</Button>
-          <Button variant="link" className="text-black text-lg" asChild>
-            <Link href="/events">Events</Link>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="link" className="text-black text-lg">
+                Events <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/events">All Events</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button variant="link" className="text-black text-lg" onClick={handleIssuesClick}>Issues</Button>
           <Button variant="link" className="text-black text-lg" asChild>
             <Link href="/login">Login</Link>

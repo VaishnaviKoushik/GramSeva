@@ -14,6 +14,13 @@ import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ChevronDown } from 'lucide-react';
 
 // Mock data for event submissions. In a real app, this would be fetched from a database.
 const mockSubmissions: Submission[] = [];
@@ -150,9 +157,18 @@ export default function EventsPage() {
             <Button variant="link" className="text-black text-lg" asChild>
                 <Link href="/">Home</Link>
             </Button>
-            <Button variant="link" className="text-black text-lg" asChild>
-                <Link href="/events">Events</Link>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="link" className="text-black text-lg">
+                  Events <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link href="/events">All Events</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="link" className="text-black text-lg" asChild>
                 <Link href="/#issues">Issues</Link>
             </Button>
