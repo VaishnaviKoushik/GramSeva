@@ -40,7 +40,7 @@ export default function FeedbacksPage() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="link" className="text-black text-lg">
-                  Events <ChevronDown className="h-4 w-4" />
+                  Events
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
