@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -12,11 +12,14 @@ import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 // Mock data for event submissions.
 const mockSubmissions: Submission[] = [];
 
 const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
+const carouselEventImages = PlaceHolderImages.filter(p => p.id.startsWith("event_"));
+
 
 type Submission = {
     id: number;
@@ -26,6 +29,38 @@ type Submission = {
     panchayatName: string;
     imageHint?: string;
 };
+
+function EventsCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselEventImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[400px] mb-8">
+      <div
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {carouselEventImages.map((img, index) => (
+          <div key={index} className="w-full flex-shrink-0">
+             <Image
+                src={img.imageUrl}
+                alt={img.description}
+                fill
+                className="object-cover"
+                data-ai-hint={img.imageHint}
+              />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function EventsPage() {
   const { toast } = useToast();
@@ -109,15 +144,7 @@ export default function EventsPage() {
       </header>
       
       <main className="p-5">
-        <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[400px] mb-8">
-            <Image
-                src="https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg"
-                alt="Rural Development Initiative"
-                fill
-                className="object-cover"
-                data-ai-hint="rural development"
-            />
-        </div>
+        <EventsCarousel />
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
