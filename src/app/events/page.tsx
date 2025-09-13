@@ -110,6 +110,15 @@ export default function EventsPage() {
       </header>
       
       <main className="p-5">
+        <div className="relative w-full h-96 mb-12">
+            <Image
+                src="https://sevalaya.org/wp-content/uploads/2023/04/waste-management-2-scaled.jpg"
+                alt="Community event"
+                fill
+                className="object-cover rounded-lg"
+                data-ai-hint="waste management community"
+            />
+        </div>
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
