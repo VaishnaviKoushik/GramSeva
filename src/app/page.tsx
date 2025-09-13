@@ -290,13 +290,6 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
           </Card>
       </div>
 
-      <div className="mt-12">
-        <h2 className="text-center text-2xl">Welcome to GramSeva 🌱</h2>
-        <p className="text-center text-muted-foreground">
-          Connecting villages with authorities to solve problems and celebrate progress.
-        </p>
-      </div>
-
       <div className="mt-12 max-w-4xl mx-auto text-center">
         <h3 className="text-2xl font-bold">Real Change, Real Stories</h3>
         <p className="text-muted-foreground mt-2">
