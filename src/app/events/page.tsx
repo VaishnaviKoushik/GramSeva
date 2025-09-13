@@ -201,48 +201,7 @@ export default function EventsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-2 space-y-4">
-                {availableEvents.map((eventName) => (
-                    <div key={eventName} className="p-4 rounded-lg transition-colors border border-transparent hover:bg-muted/50 hover:border-black">
-                        <div className="flex justify-between items-center">
-                                <h2 className="text-xl font-bold text-foreground">{eventName}</h2>
-                                <Button onClick={() => setFormVisibleForEvent(formVisibleForEvent === eventName ? null : eventName)}>
-                                {formVisibleForEvent === eventName ? 'Close' : 'Join'}
-                                </Button>
-                        </div>
-                        
-                        {formVisibleForEvent === eventName && (
-                            <div className="max-w-2xl mx-auto mt-6 mb-4">
-                                <Card>
-                                <CardHeader>
-                                    <CardTitle>Submit Your Entry for {eventName}</CardTitle>
-                                    <CardDescription>Select your Panchayat and upload a photo to participate.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                                    <input type="hidden" name="event" value={eventName} />
-                                    <Select name="panchayat" required>
-                                        <SelectTrigger>
-                                        <SelectValue placeholder="Select your Panchayat" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                        {panchayats.map((panchayat) => (
-                                            <SelectItem key={panchayat.id} value={panchayat.id}>
-                                            {panchayat.name}
-                                            </SelectItem>
-                                        ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <Input type="file" name="image" accept="image/*" required />
-                                    <Button type="submit" className="w-full" disabled={isLoading}>
-                                        {isLoading ? 'Uploading...' : 'Upload Photo'}
-                                    </Button>
-                                    </form>
-                                </CardContent>
-                                </Card>
-                            </div>
-                        )}
-                    </div>
-                ))}
+                
             </div>
             <div>
                 <Card>
