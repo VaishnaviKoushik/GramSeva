@@ -111,11 +111,11 @@ export default function EventsPage() {
       <main className="p-5">
         <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-lg shadow-lg h-[400px] mb-8">
             <Image
-                src="https://www.thehawk.in/files-bank/images/2022/10/02/4-6019.jpg"
-                alt="Swachh Bharat Mission"
+                src="https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg"
+                alt="Rural Development Initiative"
                 fill
                 className="object-cover"
-                data-ai-hint="clean india mission"
+                data-ai-hint="rural development"
             />
         </div>
         <div className="text-center mb-12">
