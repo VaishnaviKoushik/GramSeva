@@ -406,6 +406,9 @@ export default function Home() {
               <DropdownMenuItem asChild>
                 <Link href="/events">All Events</Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/feedbacks">Feedbacks</Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button variant="link" className="text-black text-lg" onClick={handleIssuesClick}>Issues</Button>
