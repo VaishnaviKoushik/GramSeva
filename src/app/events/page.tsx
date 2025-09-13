@@ -48,6 +48,7 @@ function EventsCarousel() {
                                     src={image.imageUrl}
                                     alt={image.description}
                                     fill
+                                    priority={image.id === 'event_tiranga'}
                                     className="object-cover rounded-lg"
                                     data-ai-hint={image.imageHint}
                                 />
