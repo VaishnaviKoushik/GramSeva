@@ -139,6 +139,16 @@ const initialProblems: Problem[] = [
     },
 ];
 
+const problemTitles = [
+  'Pothole',
+  'Overflowing Bin',
+  'Broken Streetlight',
+  'Garbage Dump',
+  'Water Logging',
+  'Damaged Public Property',
+  'Other',
+];
+
 
 function IssuesSection() {
   const { toast } = useToast();
@@ -157,7 +167,7 @@ function IssuesSection() {
     const panchayatId = formData.get('panchayat') as string;
     const panchayat = panchayats.find(p => p.id === panchayatId);
     
-    if (!imageFile || !panchayat) {
+    if (!imageFile || !panchayat || !title) {
       toast({
         variant: 'destructive',
         title: '❌ Error',
@@ -179,7 +189,7 @@ function IssuesSection() {
         title,
         description,
         imageUrl: photoDataUri,
-        aiResult: `Identified as: ${problemCategory}`,
+        aiResult: `AI Identified as: ${problemCategory}`,
         suggestedMeasures,
       };
 
@@ -229,7 +239,18 @@ function IssuesSection() {
             </CardHeader>
             <CardContent className="flex-grow">
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                <Input name="title" placeholder="Problem Title" required />
+                 <Select name="title" required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Problem Title" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {problemTitles.map((title) => (
+                      <SelectItem key={title} value={title}>
+                        {title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Textarea name="description" placeholder="Describe the issue" required />
                 <Select name="panchayat" required>
                   <SelectTrigger>
