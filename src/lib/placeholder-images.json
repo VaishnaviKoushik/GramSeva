@@ -18,6 +18,26 @@
       "description": "A community gathering under a large tree",
       "imageUrl": "https://picsum.photos/seed/india-village/1000/200",
       "imageHint": "community gathering"
+    },
+    {
+      "id": "event_tiranga",
+      "description": "Har Ghar Tiranga",
+      "imageUrl": "https://picsum.photos/seed/tiranga/1200/400",
+      "imageHint": "indian flag people"
+    },
+    {
+      "id": "event_swachh",
+      "description": "Swachh Bharat Mission",
+      "imageUrl": "https://picsum.photos/seed/swachh/1200/400",
+      "imageHint": "clean india mission"
+    },
+    {
+      "id": "event_plantation",
+      "description": "Plantation Drive",
+      "imageUrl": "https://picsum.photos/seed/plantation/1200/400",
+      "imageHint": "tree plantation"
     }
   ]
 }
+
+    
