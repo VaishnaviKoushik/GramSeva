@@ -115,7 +115,7 @@ const initialProblems: Problem[] = [
     },
 ];
 
-function Carousel({ onCTAClick }: { onCTAClick: () => void }) {
+function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -147,9 +147,6 @@ function Carousel({ onCTAClick }: { onCTAClick: () => void }) {
       <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center text-white">
           <h1 className="text-4xl font-bold mb-4">Empowering Our Villages, Together</h1>
           <p className="text-lg mb-8">Your voice can bring the change. Report local issues and help build a better community.</p>
-          <Button size="lg" onClick={onCTAClick}>
-            Report an Issue
-          </Button>
       </div>
     </div>
   );
@@ -174,7 +171,7 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
 
   return (
     <section>
-      <Carousel onCTAClick={() => onIssuesClick()} />
+      <Carousel />
       
       <div className="mt-16">
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Latest Issues Reported</h2>
