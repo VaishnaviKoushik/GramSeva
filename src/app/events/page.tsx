@@ -12,15 +12,11 @@ import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 // Mock data for event submissions.
 const mockSubmissions: Submission[] = [];
 
 const availableEvents = ['Har Ghar Tiranga', 'Swachh Bharat Mission', 'Plantation Drive'];
-const carouselEventImages = PlaceHolderImages.filter(p => p.id.startsWith("event_"));
-
 
 type Submission = {
     id: number;
@@ -30,41 +26,6 @@ type Submission = {
     panchayatName: string;
     imageHint?: string;
 };
-
-function EventsCarousel() {
-    return (
-        <div className="w-full max-w-6xl mx-auto mb-12">
-            <Carousel
-                opts={{
-                    loop: true,
-                }}
-                className="w-full"
-            >
-                <CarouselContent>
-                    {carouselEventImages.map((image, index) => (
-                        <CarouselItem key={image.id}>
-                            <div className="relative h-[300px] w-full">
-                                <Image
-                                    src={image.imageUrl}
-                                    alt={image.description}
-                                    fill
-                                    priority={index === 0}
-                                    className="object-cover rounded-lg"
-                                    data-ai-hint={image.imageHint}
-                                />
-                                <div className="absolute inset-0 rounded-lg flex flex-col justify-end p-8">
-                                    <h2 className="text-4xl font-bold text-black">{image.description}</h2>
-                                </div>
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2" />
-                <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2" />
-            </Carousel>
-        </div>
-    )
-}
 
 export default function EventsPage() {
   const { toast } = useToast();
@@ -151,7 +112,6 @@ export default function EventsPage() {
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-primary">Participate and Make Your Gram Shine</h1>
         </div>
-        <EventsCarousel />
         <div className="max-w-7xl mx-auto space-y-4">
             {availableEvents.map((eventName) => (
                 <div key={eventName} className="p-4 rounded-lg transition-colors border border-transparent hover:bg-muted/50 hover:border-black">
