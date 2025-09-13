@@ -444,38 +444,6 @@ function IssuesSection({problems, setProblems}: {problems: Problem[], setProblem
             </Card>
         </div>
       </div>
-
-
-      <div className="max-w-4xl mx-auto mt-8">
-        <h2 className="text-2xl font-bold text-center mb-4">Reported Problems</h2>
-        <div className="space-y-4">
-          {problems.map((p) => (
-            <Card key={p._id} id={`issue-${p._id}`}>
-              <CardContent className="p-4 space-y-3">
-                <h3 className="text-xl font-bold text-accent">{p.title}</h3>
-                <p><strong>Description:</strong> {p.description}</p>
-                <p><strong>AI Analysis:</strong> {p.aiResult}</p>
-                <p><strong>Suggested Measures:</strong> {p.suggestedMeasures}</p>
-                {p.imageUrl && (
-                   <div className="mt-2">
-                     <Image
-                      src={p.imageUrl}
-                      alt="Problem Image"
-                      width={400}
-                      height={300}
-                      className="rounded-md"
-                    />
-                   </div>
-                )}
-                <div>
-                  <h4 className="font-semibold mb-2">Current Status:</h4>
-                  <StatusTracker currentStatus={p.status} />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
