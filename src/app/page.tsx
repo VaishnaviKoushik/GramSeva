@@ -42,28 +42,6 @@ const governmentEvents = [
   },
 ];
 
-
-// Mock API functions for demonstration
-const fetchProblems = async () => {
-  // In a real app, this would fetch from your backend
-  return [
-    {
-      _id: '1',
-      title: 'Pothole on Main Street',
-      description: 'A large pothole is causing issues for traffic.',
-      aiResult: 'Identified as road damage.',
-      image: 'https://picsum.photos/seed/problem1/400/300',
-    },
-    {
-      _id: '2',
-      title: 'Broken Streetlight',
-      description: 'The streetlight at the corner of Oak and Pine is out.',
-      aiResult: 'Identified as electrical issue.',
-      image: 'https://picsum.photos/seed/problem2/400/300',
-    },
-  ];
-};
-
 function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -138,23 +116,36 @@ type Problem = {
   title: string;
   description: string;
   aiResult: string;
-  image?: string;
+  suggestedMeasures: string;
+  imageUrl: string;
 };
+
+const initialProblems: Problem[] = [
+    {
+      _id: '1',
+      title: 'Pothole on Main Street',
+      description: 'A large pothole is causing issues for traffic.',
+      aiResult: 'Identified as road damage.',
+      suggestedMeasures: 'Barricade the area and inform the local PWD for road surface repair.',
+      imageUrl: 'https://picsum.photos/seed/problem1/400/300',
+    },
+    {
+      _id: '2',
+      title: 'Broken Streetlight',
+      description: 'The streetlight at the corner of Oak and Pine is out.',
+      aiResult: 'Identified as electrical issue.',
+      suggestedMeasures: 'Report to the electricity board and cordon off the area if there are exposed wires.',
+      imageUrl: 'https://picsum.photos/seed/problem2/400/300',
+    },
+];
+
 
 function IssuesSection() {
   const { toast } = useToast();
-  const [problems, setProblems] = useState<Problem[]>([]);
+  const [problems, setProblems] = useState<Problem[]>(initialProblems);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    const loadProblems = async () => {
-      const fetchedProblems = await fetchProblems();
-      setProblems(fetchedProblems);
-    };
-    loadProblems();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -180,9 +171,20 @@ function IssuesSection() {
       setLoadingMessage('Processing image...');
       const photoDataUri = await fileToDataUri(imageFile);
 
-      setLoadingMessage('Identifying problem category...');
-      const { problemCategory } = await identifyProblemFromImage({ photoDataUri });
+      setLoadingMessage('Identifying problem and suggesting measures...');
+      const { problemCategory, suggestedMeasures } = await identifyProblemFromImage({ photoDataUri });
 
+      const newProblem: Problem = {
+        _id: new Date().toISOString(),
+        title,
+        description,
+        imageUrl: photoDataUri,
+        aiResult: `Identified as: ${problemCategory}`,
+        suggestedMeasures,
+      };
+
+      setProblems(prevProblems => [newProblem, ...prevProblems]);
+      
       setLoadingMessage('Drafting report for Panchayat...');
       const { report } = await draftReportForPanchayat({
         photoDataUri,
@@ -199,13 +201,11 @@ function IssuesSection() {
       window.location.href = mailtoLink;
       
       toast({
-        title: '✅ Report Drafted',
-        description: 'Your email client is opening to send the report.'
+        title: '✅ Report Submitted & Drafted',
+        description: 'The problem has been logged. Your email client is opening to send the report.'
       });
       
       formRef.current?.reset();
-      const fetchedProblems = await fetchProblems(); // Refresh list
-      setProblems(fetchedProblems);
     } catch (err) {
       toast({
         variant: 'destructive',
@@ -273,10 +273,11 @@ function IssuesSection() {
                 <h3 className="text-xl font-bold text-accent">{p.title}</h3>
                 <p><strong>Description:</strong> {p.description}</p>
                 <p><strong>AI Analysis:</strong> {p.aiResult}</p>
-                {p.image && (
+                <p><strong>Suggested Measures:</strong> {p.suggestedMeasures}</p>
+                {p.imageUrl && (
                    <div className="mt-2">
                      <Image
-                      src={p.image}
+                      src={p.imageUrl}
                       alt="Problem Image"
                       width={400}
                       height={300}

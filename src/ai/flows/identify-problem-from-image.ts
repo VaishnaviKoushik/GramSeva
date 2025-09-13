@@ -2,7 +2,7 @@
 /**
  * @fileOverview This file defines a Genkit flow for identifying urban problems from an image.
  *
- * It takes an image data URI as input and returns the identified problem category.
+ * It takes an image data URI as input and returns the identified problem category and suggested measures.
  * - identifyProblemFromImage - A function that handles the problem identification process.
  * - IdentifyProblemFromImageInput - The input type for the identifyProblemFromImage function.
  * - IdentifyProblemFromImageOutput - The return type for the identifyProblemFromImage function.
@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { suggestMeasures } from './suggest-measures-flow';
 
 const IdentifyProblemFromImageInputSchema = z.object({
   photoDataUri: z
@@ -22,6 +23,7 @@ export type IdentifyProblemFromImageInput = z.infer<typeof IdentifyProblemFromIm
 
 const IdentifyProblemFromImageOutputSchema = z.object({
   problemCategory: z.string().describe('The identified category of the urban problem.'),
+  suggestedMeasures: z.string().describe('The suggested measures to resolve the problem.'),
 });
 export type IdentifyProblemFromImageOutput = z.infer<typeof IdentifyProblemFromImageOutputSchema>;
 
@@ -34,7 +36,7 @@ export async function identifyProblemFromImage(
 const prompt = ai.definePrompt({
   name: 'identifyProblemFromImagePrompt',
   input: {schema: IdentifyProblemFromImageInputSchema},
-  output: {schema: IdentifyProblemFromImageOutputSchema},
+  output: {schema: z.object({ problemCategory: z.string().describe('The identified category of the urban problem.') })},
   prompt: `You are an AI trained to identify problems in a village from images.
 
   Analyze the image and determine the category of the problem.
@@ -54,6 +56,16 @@ const identifyProblemFromImageFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      throw new Error('Could not identify the problem from the image.');
+    }
+    const { problemCategory } = output;
+    
+    const { measures } = await suggestMeasures({ problemCategory });
+
+    return {
+      problemCategory,
+      suggestedMeasures: measures,
+    };
   }
 );

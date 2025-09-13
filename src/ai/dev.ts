@@ -4,3 +4,4 @@ config();
 import '@/ai/flows/identify-problem-from-image.ts';
 import '@/ai/flows/draft-report-for-city.ts';
 import '@/ai/flows/draft-report-for-panchayat.ts';
+import '@/ai/flows/suggest-measures-flow.ts';
