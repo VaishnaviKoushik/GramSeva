@@ -43,7 +43,7 @@ function EventsCarousel() {
                 <CarouselContent>
                     {carouselEventImages.map((image) => (
                         <CarouselItem key={image.id}>
-                            <div className="relative h-[400px] w-full">
+                            <div className="relative h-[300px] w-full">
                                 <Image
                                     src={image.imageUrl}
                                     alt={image.description}
@@ -51,8 +51,8 @@ function EventsCarousel() {
                                     className="object-cover rounded-lg"
                                     data-ai-hint={image.imageHint}
                                 />
-                                <div className="absolute inset-0 bg-black/40 rounded-lg flex flex-col justify-end p-8">
-                                    <h2 className="text-4xl font-bold text-white">{image.description}</h2>
+                                <div className="absolute inset-0 rounded-lg flex flex-col justify-end p-8">
+                                    <h2 className="text-4xl font-bold text-black">{image.description}</h2>
                                 </div>
                             </div>
                         </CarouselItem>
@@ -237,5 +237,3 @@ export default function EventsPage() {
     </div>
   );
 }
-
-    
