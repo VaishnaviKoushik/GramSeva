@@ -201,9 +201,21 @@ export default function EventsPage() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="link" className="text-primary-foreground text-lg" asChild>
-                <Link href="/#issues">Issues</Link>
-            </Button>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="link" className="text-primary-foreground text-lg">
+                    Issues
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem asChild>
+                    <Link href="/#issues-section">Report a New Issue</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                    <Link href="/#issues-section">View All Issues</Link>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="link" className="text-primary-foreground text-lg" asChild>
                 <Link href="/login">Login</Link>
             </Button>

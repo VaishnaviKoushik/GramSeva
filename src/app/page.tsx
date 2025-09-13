@@ -530,7 +530,21 @@ export default function Home() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="link" className="text-primary-foreground text-lg" onClick={() => handleIssuesClick()}>Issues</Button>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="link" className="text-primary-foreground text-lg">
+                    Issues
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem>
+                    <div onClick={() => handleIssuesClick()}>Report a New Issue</div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                    <div onClick={() => handleIssuesClick()}>View All Issues</div>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
           <Button variant="link" className="text-primary-foreground text-lg" asChild>
             <Link href="/login">Login</Link>
           </Button>
