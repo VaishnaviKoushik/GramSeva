@@ -94,6 +94,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.jagranimages.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.assettype.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
