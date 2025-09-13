@@ -518,13 +518,13 @@ export default function Home() {
   
   return (
     <div className="bg-background min-h-screen">
-      <header className="bg-white text-black flex justify-between items-center p-4 px-10 border-b">
-        <Link href="/" className="text-3xl font-bold text-black">GramSeva</Link>
+      <header className="bg-primary text-primary-foreground flex justify-between items-center p-4 px-10 border-b">
+        <Link href="/" className="text-3xl font-bold text-primary-foreground">GramSeva</Link>
         <nav className="flex items-center space-x-4">
-          <Button variant="link" className="text-black text-lg" onClick={() => setActiveSection('home')}>Home</Button>
+          <Button variant="link" className="text-primary-foreground text-lg" onClick={() => setActiveSection('home')}>Home</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="link" className="text-black text-lg">
+              <Button variant="link" className="text-primary-foreground text-lg">
                 Events
               </Button>
             </DropdownMenuTrigger>
@@ -540,8 +540,8 @@ export default function Home() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="link" className="text-black text-lg" onClick={() => handleIssuesClick()}>Issues</Button>
-          <Button variant="link" className="text-black text-lg" asChild>
+          <Button variant="link" className="text-primary-foreground text-lg" onClick={() => handleIssuesClick()}>Issues</Button>
+          <Button variant="link" className="text-primary-foreground text-lg" asChild>
             <Link href="/login">Login</Link>
           </Button>
         </nav>
