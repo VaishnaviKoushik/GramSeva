@@ -30,12 +30,6 @@
       "description": "Swachh Bharat Mission",
       "imageUrl": "https://niti.gov.in/sites/default/files/2023-07/swachh-bharat-mission.jpg",
       "imageHint": "clean india mission"
-    },
-    {
-      "id": "event_plantation",
-      "description": "Rural development",
-      "imageUrl": "https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg",
-      "imageHint": "rural development"
     }
   ]
 }
