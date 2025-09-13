@@ -32,9 +32,9 @@ const carouselImages = [
         "data-ai-hint": "rural development"
     },
     {
-        src: "https://sevalaya.org/wp-content/uploads/2023/04/DSC08239-scaled.jpg",
-        alt: "Rural development initiative",
-        "data-ai-hint": "rural development community"
+        src: "https://sevalaya.org/wp-content/uploads/2025/08/Sevalaya-Kasuva_Independence-Day_1.jpg",
+        alt: "Independence Day celebration",
+        "data-ai-hint": "independence day celebration"
     }
 ];
 
