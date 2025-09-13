@@ -80,13 +80,6 @@ function HomeSection() {
   return (
     <section>
       <Carousel />
-
-      <div className="mt-12">
-        <h2 className="text-center text-2xl">Welcome to GramSeva 🌱</h2>
-        <p className="text-center text-muted-foreground">
-          Connecting villages with authorities to solve problems and celebrate progress.
-        </p>
-      </div>
       
       <div className="mt-8">
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
@@ -144,6 +137,13 @@ function HomeSection() {
                   <p>View success stories and impact reports from other villages. Get inspired by the positive changes happening all around.</p>
               </CardContent>
           </Card>
+      </div>
+
+      <div className="mt-12">
+        <h2 className="text-center text-2xl">Welcome to GramSeva 🌱</h2>
+        <p className="text-center text-muted-foreground">
+          Connecting villages with authorities to solve problems and celebrate progress.
+        </p>
       </div>
 
       <div className="mt-12 max-w-4xl mx-auto text-center">
