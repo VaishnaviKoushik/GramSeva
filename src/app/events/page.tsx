@@ -12,7 +12,6 @@ import { useToast } from '@/hooks/use-toast';
 import { panchayats } from '@/lib/panchayats';
 import { fileToDataUri } from '@/lib/utils';
 import { groupBy } from 'lodash';
-import { Badge } from '@/components/ui/badge';
 
 // Mock data for event submissions.
 const mockSubmissions = [
@@ -24,6 +23,9 @@ const mockSubmissions = [
     { id: 10, event: 'Har Ghar Tiranga', panchayat: 'bailhongal', imageUrl: 'https://picsum.photos/seed/hgt1/400/300', panchayatName: 'Bailhongal (Belagavi)' },
     { id: 11, event: 'Har Ghar Tiranga', panchayat: 'sankeshwar', imageUrl: 'https://picsum.photos/seed/hgt2/400/300', panchayatName: 'Sankeshwar (Belagavi)' },
     { id: 12, event: 'Har Ghar Tiranga', panchayat: 'kakati', imageUrl: 'https://picsum.photos/seed/hgt3/400/300', panchayatName: 'Kakati (Belagavi)' },
+    { id: 13, event: 'Har Ghar Tiranga', panchayat: 'suggatta', imageUrl: 'https://picsum.photos/seed/hgt4/400/300', panchayatName: 'Suggatta (Bangalore Urban)'},
+    { id: 14, event: 'Har Ghar Tiranga', panchayat: 'adakamaranahalli', imageUrl: 'https://picsum.photos/seed/hgt5/400/300', panchayatName: 'Adakamaranahalli (Bangalore Urban)'},
+    { id: 15, event: 'Har Ghar Tiranga', panchayat: 'munnur', imageUrl: 'https://picsum.photos/seed/hgt6/400/300', panchayatName: 'Munnur (Dakshina Kannada)'},
     { id: 4, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://media.geeksforgeeks.org/wp-content/uploads/20230728153232/gfg-50.jpg', panchayatName: 'Athani (Belagavi)' },
     { id: 5, event: 'Swachh Bharat Mission', panchayat: 'athani', imageUrl: 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202310/swachh-bharat-mission-013322428-16x9.jpg?VersionId=T.8i8n3jCgVcr2wY30m5F8z46_7mU9xP&size=690:388', panchayatName: 'Athani (Belagavi)' },
     { id: 6, event: 'Swachh Bharat Mission', panchayat: 'gokak', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR63-5-kUq-YQ-1_w-9_1B4A6A6A5A5C2B2B&s', panchayatName: 'Gokak (Belagavi)' },
