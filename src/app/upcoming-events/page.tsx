@@ -88,12 +88,7 @@ export default function UpcomingEventsPage() {
 
   const handleRsvp = (eventId: number) => {
     if (!user) {
-        toast({
-            variant: 'destructive',
-            title: 'Please Log In',
-            description: 'You need to be logged in to RSVP for an event.',
-            action: <Button onClick={() => router.push('/login')}>Login</Button>
-        });
+        router.push('/login');
         return;
     }
     setRsvpedEvents(prev => {
@@ -121,26 +116,12 @@ export default function UpcomingEventsPage() {
             className="w-full"
             onClick={() => handleRsvp(eventId)}
             variant={isRsvped ? 'secondary' : 'default'}
-            disabled={isSelectedDateInPast || !user}
+            disabled={isSelectedDateInPast}
         >
             {isSelectedDateInPast ? 'Event Ended' : (isRsvped ? 'Cancel RSVP' : 'RSVP')}
         </Button>
     );
 
-    if (!user && !isSelectedDateInPast) {
-        return (
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <div className="w-full">{button}</div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>Please log in to RSVP</p>
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
-        );
-    }
     return button;
   };
 
