@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { StatusTracker, type ProblemStatus } from '@/components/ui/status-tracker';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Textarea } from '@/components/ui/textarea';
+import { StarRating } from '@/components/ui/star-rating';
+import { Calendar, MessageSquare, Star } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+
+type Comment = {
+  user: string;
+  avatar: string;
+  text: string;
+  date: string;
+};
 
 type Problem = {
   _id: string;
@@ -22,6 +34,10 @@ type Problem = {
   suggestedMeasures: string;
   imageUrl: string;
   status: ProblemStatus;
+  scheduledStartDate?: string;
+  scheduledCompletionDate?: string;
+  comments: Comment[];
+  rating?: number;
 };
 
 // In a real app, this data would be fetched from a database.
@@ -34,6 +50,9 @@ const initialProblems: Problem[] = [
       suggestedMeasures: 'Barricade the area and inform the local PWD for road surface repair.',
       imageUrl: 'https://picsum.photos/seed/problem1/400/300',
       status: 'Under Review',
+      scheduledStartDate: 'August 25, 2025',
+      scheduledCompletionDate: 'August 28, 2025',
+      comments: [],
     },
     {
       _id: '2',
@@ -43,6 +62,11 @@ const initialProblems: Problem[] = [
       suggestedMeasures: 'Report to the electricity board and cordon off the area if there are exposed wires.',
       imageUrl: 'https://picsum.photos/seed/problem2/400/300',
       status: 'Resolved',
+      comments: [
+        { user: 'Rina S.', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d', text: 'Thank you for the quick fix! The street feels much safer now.', date: 'July 15, 2025' },
+        { user: 'Amit K.', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704e', text: 'Great work by the Panchayat team.', date: 'July 16, 2025' },
+      ],
+      rating: 4.5,
     },
     {
       _id: '3',
@@ -52,6 +76,8 @@ const initialProblems: Problem[] = [
       suggestedMeasures: 'Arrange for immediate garbage collection and consider placing an additional bin.',
       imageUrl: 'https://picsum.photos/seed/problem3/400/300',
       status: 'Assigned',
+      scheduledStartDate: 'August 22, 2025',
+      comments: [],
     },
     {
         _id: '4',
@@ -61,11 +87,36 @@ const initialProblems: Problem[] = [
         suggestedMeasures: 'Clear any blocked drains and create temporary channels for water to flow away. Report to municipal authorities for a permanent solution.',
         imageUrl: 'https://picsum.photos/seed/problem4/400/300',
         status: 'Submitted',
+        comments: [],
     },
 ];
 
 export default function ReportedIssuesPage() {
   const [problems, setProblems] = useState<Problem[]>(initialProblems);
+
+  const handleFeedbackSubmit = (problemId: string, comment: string, rating: number) => {
+    setProblems(prevProblems => prevProblems.map(p => {
+        if (p._id === problemId) {
+            const newComment: Comment = {
+                user: 'You',
+                avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704f',
+                text: comment,
+                date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+            };
+            const existingComments = p.comments || [];
+            const existingRating = p.rating || 0;
+            const newTotalRatings = existingComments.length + 1;
+            const newAverageRating = ((existingRating * existingComments.length) + rating) / newTotalRatings;
+
+            return {
+                ...p,
+                comments: [...existingComments, newComment],
+                rating: newAverageRating,
+            };
+        }
+        return p;
+    }));
+  };
 
   return (
     <div className="bg-background min-h-screen flex flex-col">
@@ -148,7 +199,46 @@ export default function ReportedIssuesPage() {
                         <h4 className="font-semibold mb-2">Current Status:</h4>
                         <StatusTracker currentStatus={p.status} />
                         </div>
+                        {(p.scheduledStartDate || p.scheduledCompletionDate) && (
+                           <div className="space-y-2 mt-4 pt-4 border-t">
+                                <h4 className="font-semibold">Schedule</h4>
+                                {p.scheduledStartDate && <p className="flex items-center"><Calendar className="mr-2 h-4 w-4" /> <strong>Scheduled Start:</strong> {p.scheduledStartDate}</p>}
+                                {p.scheduledCompletionDate && <p className="flex items-center"><Calendar className="mr-2 h-4 w-4" /> <strong>Expected Completion:</strong> {p.scheduledCompletionDate}</p>}
+                           </div>
+                        )}
                     </CardContent>
+
+                    {p.status === 'Resolved' && (
+                        <CardFooter className="flex-col items-start">
+                            <Separator className="my-4" />
+                            <div className="w-full">
+                                <h4 className="font-semibold text-lg flex items-center mb-2">
+                                    <MessageSquare className="mr-2 h-5 w-5" /> Community Feedback
+                                </h4>
+                                {p.rating && (
+                                    <div className="flex items-center mb-4">
+                                        <StarRating rating={p.rating} totalStars={5} />
+                                        <span className="ml-2 text-muted-foreground">({p.rating.toFixed(1)} average rating)</span>
+                                    </div>
+                                )}
+                                <div className="space-y-4 mb-4">
+                                    {p.comments.map((comment, index) => (
+                                        <div key={index} className="flex items-start space-x-3">
+                                            <Avatar>
+                                                <AvatarImage src={comment.avatar} />
+                                                <AvatarFallback>{comment.user.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <p className="font-semibold">{comment.user} <span className="text-xs text-muted-foreground ml-2">{comment.date}</span></p>
+                                                <p className="text-sm">{comment.text}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <FeedbackForm problemId={p._id} onSubmit={handleFeedbackSubmit} />
+                            </div>
+                        </CardFooter>
+                    )}
                 </Card>
             ))}
             </div>
@@ -161,3 +251,36 @@ export default function ReportedIssuesPage() {
     </div>
   );
 }
+
+function FeedbackForm({ problemId, onSubmit }: { problemId: string, onSubmit: (problemId: string, comment: string, rating: number) => void }) {
+    const [comment, setComment] = useState('');
+    const [rating, setRating] = useState(0);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (comment && rating > 0) {
+            onSubmit(problemId, comment, rating);
+            setComment('');
+            setRating(0);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="mt-4 pt-4 border-t w-full">
+            <h5 className="font-semibold mb-2">Leave your feedback</h5>
+            <div className="flex items-center space-x-2 mb-2">
+                <StarRating rating={rating} setRating={setRating} totalStars={5} interactive />
+            </div>
+            <Textarea 
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Share your thoughts on the resolution..."
+                className="mb-2"
+                required
+            />
+            <Button type="submit">Submit Feedback</Button>
+        </form>
+    );
+}
+
+    
