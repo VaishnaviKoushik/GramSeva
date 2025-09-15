@@ -37,6 +37,27 @@ const upcomingEvents = [
       location: 'Panchayat Office',
       description: 'An open meeting for all villagers to discuss development projects and local governance.',
     },
+    {
+      id: 4,
+      title: 'Free Health Check-up Camp',
+      date: new Date('2025-09-15'),
+      location: 'Primary Health Centre',
+      description: 'A free health camp for all villagers, with specialist doctors for consultation.',
+    },
+    {
+        id: 5,
+        title: 'Digital Literacy Workshop',
+        date: new Date('2025-08-20'),
+        location: 'Government School',
+        description: 'Learn basic computer and internet skills. Open for all ages.',
+    },
+    {
+        id: 6,
+        title: 'Village Cultural Festival',
+        date: new Date('2025-11-01'),
+        location: 'Village Square',
+        description: 'Celebrate our local culture with music, dance, and food stalls.',
+    },
 ];
 
 export default function UpcomingEventsPage() {
