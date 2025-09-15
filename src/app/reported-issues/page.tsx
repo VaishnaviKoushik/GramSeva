@@ -16,7 +16,7 @@ import { StatusTracker, type ProblemStatus } from '@/components/ui/status-tracke
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { StarRating } from '@/components/ui/star-rating';
-import { Calendar, MessageSquare, Star, Globe } from 'lucide-react';
+import { Calendar, MessageSquare, Star, ChevronDown } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -204,18 +204,18 @@ export default function ReportedIssuesPage() {
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Globe className="h-[1.2rem] w-[1.2rem]" />
-                  <span className="sr-only">Toggle language</span>
+                <Button variant="outline">
+                  {language === 'en' ? 'English' : 'ಕನ್ನಡ'}
+                  <ChevronDown className="h-4 w-4 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setLanguage('en')}>
+                {language !== 'en' && <DropdownMenuItem onClick={() => setLanguage('en')}>
                   English
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                </DropdownMenuItem>}
+                {language !== 'kn' && <DropdownMenuItem onClick={() => setLanguage('kn')}>
                   ಕನ್ನಡ
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
               </DropdownMenuContent>
             </DropdownMenu>
         </nav>

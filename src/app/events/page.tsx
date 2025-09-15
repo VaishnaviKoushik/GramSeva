@@ -25,7 +25,7 @@ import { Badge } from '@/components/ui/badge';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { useRouter } from 'next/navigation';
-import { Globe } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { LanguageContext } from '@/context/language-context';
 import { translations } from '@/lib/translations';
 
@@ -263,18 +263,18 @@ export default function EventsPage() {
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Globe className="h-[1.2rem] w-[1.2rem]" />
-                  <span className="sr-only">Toggle language</span>
+                <Button variant="outline">
+                  {language === 'en' ? 'English' : 'ಕನ್ನಡ'}
+                  <ChevronDown className="h-4 w-4 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setLanguage('en')}>
+                {language !== 'en' && <DropdownMenuItem onClick={() => setLanguage('en')}>
                   English
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                </DropdownMenuItem>}
+                {language !== 'kn' && <DropdownMenuItem onClick={() => setLanguage('kn')}>
                   ಕನ್ನಡ
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
               </DropdownMenuContent>
             </DropdownMenu>
         </nav>

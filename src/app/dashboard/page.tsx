@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useToast } from '@/hooks/use-toast';
-import { Users, AlertCircle, CheckCircle, Clock, Globe } from 'lucide-react';
+import { Users, AlertCircle, CheckCircle, Clock, ChevronDown } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LanguageContext } from '@/context/language-context';
 import { translations } from '@/lib/translations';
@@ -105,18 +105,18 @@ export default function DashboardPage() {
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="icon">
-                          <Globe className="h-[1.2rem] w-[1.2rem]" />
-                          <span className="sr-only">Toggle language</span>
+                        <Button variant="outline">
+                          {language === 'en' ? 'English' : 'ಕನ್ನಡ'}
+                          <ChevronDown className="h-4 w-4 ml-1" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setLanguage('en')}>
+                        {language !== 'en' && <DropdownMenuItem onClick={() => setLanguage('en')}>
                           English
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                        </DropdownMenuItem>}
+                        {language !== 'kn' && <DropdownMenuItem onClick={() => setLanguage('kn')}>
                           ಕನ್ನಡ
-                        </DropdownMenuItem>
+                        </DropdownMenuItem>}
                       </DropdownMenuContent>
                     </DropdownMenu>
                 </nav>

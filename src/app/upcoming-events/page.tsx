@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Calendar as CalendarIcon, MapPin, Globe } from 'lucide-react';
+import { Calendar as CalendarIcon, MapPin, ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -186,18 +186,18 @@ export default function UpcomingEventsPage() {
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Globe className="h-[1.2rem] w-[1.2rem]" />
-                  <span className="sr-only">Toggle language</span>
+                <Button variant="outline">
+                  {language === 'en' ? 'English' : 'ಕನ್ನಡ'}
+                  <ChevronDown className="h-4 w-4 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setLanguage('en')}>
+                {language !== 'en' && <DropdownMenuItem onClick={() => setLanguage('en')}>
                   English
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                </DropdownMenuItem>}
+                {language !== 'kn' && <DropdownMenuItem onClick={() => setLanguage('kn')}>
                   ಕನ್ನಡ
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
               </DropdownMenuContent>
             </DropdownMenu>
         </nav>
