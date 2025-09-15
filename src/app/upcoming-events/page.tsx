@@ -219,7 +219,13 @@ export default function UpcomingEventsPage() {
                                 onSelect={setSelectedDate}
                                 className="rounded-md"
                                 modifiers={{ eventDays: eventDates }}
-                                modifiersStyles={{ eventDays: { fontWeight: 'bold', textDecoration: 'underline' } }}
+                                modifiersStyles={{ 
+                                    eventDays: { 
+                                        backgroundColor: 'hsl(var(--accent))',
+                                        color: 'hsl(var(--accent-foreground))',
+                                        borderRadius: '0.25rem'
+                                    } 
+                                }}
                             />
                         </CardContent>
                     </Card>
