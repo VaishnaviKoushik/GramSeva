@@ -84,6 +84,20 @@ const upcomingEvents = [
       location: 'Primary Health Centre',
       description: 'A free health camp for all villagers, with specialist doctors for consultation.',
     },
+    {
+        id: 5,
+        title: 'Digital Literacy Workshop',
+        date: 'August 20, 2025',
+        location: 'Government School',
+        description: 'Learn basic computer and internet skills. Open for all ages.',
+    },
+    {
+        id: 6,
+        title: 'Village Cultural Festival',
+        date: 'November 1, 2025',
+        location: 'Village Square',
+        description: 'Celebrate our local culture with music, dance, and food stalls.',
+    },
 ];
 
 type Problem = {
@@ -515,6 +529,7 @@ export default function Home() {
   const [user, setUser] = useState<{ email: string; type: string } | null>(null);
   const { language, setLanguage } = useContext(LanguageContext);
   const t = translations[language];
+  const router = useRouter();
 
   useEffect(() => {
     const loggedInUser = sessionStorage.getItem('user');
@@ -542,14 +557,17 @@ export default function Home() {
   };
 
   const handleIssuesClick = (issueId?: string) => {
-    setActiveSection('issues');
-    setTimeout(() => {
-        const targetId = issueId ? `issue-${issueId}` : 'issues-section';
-        const element = document.getElementById(targetId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }, 0);
+    if (issueId) {
+        router.push(`/reported-issues#issue-${issueId}`);
+    } else {
+        setActiveSection('issues');
+        setTimeout(() => {
+            const element = document.getElementById('issues-section');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 0);
+    }
   };
   
   return (
