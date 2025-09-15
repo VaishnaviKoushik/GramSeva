@@ -249,7 +249,7 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
               </CardContent>
               <CardFooter>
                 <Button className="w-full" asChild>
-                    <Link href="/events">Join Event</Link>
+                    <Link href="/upcoming-events">Join Event</Link>
                 </Button>
               </CardFooter>
             </Card>
