@@ -55,9 +55,9 @@ const upcomingEvents = [
     {
       id: 1,
       title: 'Plantation Drive',
-      date: 'August 15, 2025',
+      date: 'July 15, 2024',
       location: 'Village Community Hall',
-      description: 'Join us in planting 100 new saplings to make our village greener and celebrate Independence Day.',
+      description: 'Join us in planting 100 new saplings to make our village greener.',
     },
     {
       id: 2,
@@ -72,6 +72,13 @@ const upcomingEvents = [
       date: 'September 5, 2025',
       location: 'Panchayat Office',
       description: 'An open meeting for all villagers to discuss development projects and local governance.',
+    },
+     {
+      id: 4,
+      title: 'Free Health Check-up Camp',
+      date: 'June 15, 2024',
+      location: 'Primary Health Centre',
+      description: 'A free health camp for all villagers, with specialist doctors for consultation.',
     },
 ];
 
@@ -206,7 +213,7 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
           Get involved in local initiatives. Participate, connect with your neighbors, and help build a stronger community.
         </p>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {upcomingEvents.map((event) => (
+          {upcomingEvents.slice(0, 3).map((event) => (
             <Card key={event.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
               <CardHeader>
                 <CardTitle>{event.title}</CardTitle>
