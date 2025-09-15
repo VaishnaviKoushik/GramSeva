@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,9 @@ import { Badge } from '@/components/ui/badge';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { useRouter } from 'next/navigation';
+import { Globe } from 'lucide-react';
+import { LanguageContext } from '@/context/language-context';
+import { translations } from '@/lib/translations';
 
 // Mock data for event submissions. In a real app, this would be fetched from a database.
 const mockSubmissions: Submission[] = [];
@@ -122,6 +125,8 @@ export default function EventsPage() {
   const formRef = useRef<HTMLFormElement>(null);
   const [user, setUser] = useState<{ email: string } | null>(null);
   const router = useRouter();
+  const { language, setLanguage } = useContext(LanguageContext);
+  const t = translations[language];
 
   useEffect(() => {
     const loggedInUser = sessionStorage.getItem('user');
@@ -209,53 +214,69 @@ export default function EventsPage() {
         <Link href="/" className="text-3xl font-bold text-primary-foreground">GramSeva</Link>
         <nav className="flex items-center space-x-4">
             <Button variant="link" className="text-primary-foreground text-lg" asChild>
-                <Link href="/">Home</Link>
+                <Link href="/">{t.home}</Link>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="link" className="text-primary-foreground text-lg">
-                  Events
+                  {t.events}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                  <Link href="/events">All Events</Link>
+                  <Link href="/events">{t.allEvents}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/upcoming-events">Upcoming Events</Link>
+                  <Link href="/upcoming-events">{t.upcomingEvents}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/feedbacks">Feedbacks</Link>
+                  <Link href="/feedbacks">{t.feedbacks}</Link>
                 </DropdownMenuItem>
                  <DropdownMenuItem asChild>
-                  <Link href="/rise-ahead">Rise Ahead</Link>
+                  <Link href="/rise-ahead">{t.riseAhead}</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="link" className="text-primary-foreground text-lg">
-                    Issues
+                    {t.issues}
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem asChild>
-                    <Link href="/#issues-section">Report a New Issue</Link>
+                    <Link href="/#issues-section">{t.reportNewIssue}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/reported-issues">Reported Issues</Link>
+                      <Link href="/reported-issues">{t.reportedIssues}</Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             {user ? (
               <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
-                Logout
+                {t.logout}
               </Button>
             ) : (
               <Button variant="link" className="text-primary-foreground text-lg" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/login">{t.login}</Link>
               </Button>
             )}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Globe className="h-[1.2rem] w-[1.2rem]" />
+                  <span className="sr-only">Toggle language</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setLanguage('en')}>
+                  English
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                  ಕನ್ನಡ
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
         </nav>
       </header>
       

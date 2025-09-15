@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useToast } from '@/hooks/use-toast';
-import { Users, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { Users, AlertCircle, CheckCircle, Clock, Globe } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { LanguageContext } from '@/context/language-context';
+import { translations } from '@/lib/translations';
 
 // Mock data for the dashboard
 const issuesPerMonth = [
@@ -48,6 +50,9 @@ export default function DashboardPage() {
     const { toast } = useToast();
     const router = useRouter();
     const [user, setUser] = useState<{ email: string; type: string } | null>(null);
+    const { language, setLanguage } = useContext(LanguageContext);
+    const t = translations[language];
+
 
     useEffect(() => {
         const loggedInUser = sessionStorage.getItem('user');
@@ -93,11 +98,27 @@ export default function DashboardPage() {
                         <Link href="/dashboard">Dashboard</Link>
                     </Button>
                     <Button variant="link" className="text-primary-foreground text-lg" asChild>
-                        <Link href="/reported-issues">All Issues</Link>
+                        <Link href="/reported-issues">{t.reportedIssues}</Link>
                     </Button>
                     <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
-                        Logout
+                        {t.logout}
                     </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon">
+                          <Globe className="h-[1.2rem] w-[1.2rem]" />
+                          <span className="sr-only">Toggle language</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => setLanguage('en')}>
+                          English
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                          ಕನ್ನಡ
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                 </nav>
             </header>
             

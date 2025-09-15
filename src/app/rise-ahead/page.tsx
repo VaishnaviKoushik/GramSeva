@@ -12,6 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useContext } from 'react';
+import { LanguageContext } from '@/context/language-context';
+import { translations } from '@/lib/translations';
+import { Globe } from 'lucide-react';
 
 const initiatives = [
     {
@@ -61,53 +65,72 @@ const initiatives = [
 ];
 
 export default function RiseAheadPage() {
+  const { language, setLanguage } = useContext(LanguageContext);
+  const t = translations[language];
+
   return (
     <div className="bg-background min-h-screen flex flex-col">
        <header className="bg-primary text-primary-foreground flex justify-between items-center p-4 px-10 border-b">
         <Link href="/" className="text-3xl font-bold text-primary-foreground">GramSeva</Link>
         <nav className="flex items-center space-x-4">
             <Button variant="link" className="text-primary-foreground text-lg" asChild>
-                <Link href="/">Home</Link>
+                <Link href="/">{t.home}</Link>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="link" className="text-primary-foreground text-lg">
-                  Events
+                  {t.events}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                  <Link href="/events">All Events</Link>
+                  <Link href="/events">{t.allEvents}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/upcoming-events">Upcoming Events</Link>
+                  <Link href="/upcoming-events">{t.upcomingEvents}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/feedbacks">Feedbacks</Link>
+                  <Link href="/feedbacks">{t.feedbacks}</Link>
                 </DropdownMenuItem>
                  <DropdownMenuItem asChild>
-                  <Link href="/rise-ahead">Rise Ahead</Link>
+                  <Link href="/rise-ahead">{t.riseAhead}</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="link" className="text-primary-foreground text-lg">
-                    Issues
+                    {t.issues}
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem asChild>
-                    <Link href="/#issues-section">Report a New Issue</Link>
+                    <Link href="/#issues-section">{t.reportNewIssue}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/reported-issues">Reported Issues</Link>
+                      <Link href="/reported-issues">{t.reportedIssues}</Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             <Button variant="link" className="text-primary-foreground text-lg" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/login">{t.login}</Link>
             </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Globe className="h-[1.2rem] w-[1.2rem]" />
+                  <span className="sr-only">Toggle language</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setLanguage('en')}>
+                  English
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('kn')}>
+                  ಕನ್ನಡ
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
         </nav>
       </header>
       
