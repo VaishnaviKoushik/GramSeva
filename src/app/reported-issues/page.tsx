@@ -19,6 +19,7 @@ import { StarRating } from '@/components/ui/star-rating';
 import { Calendar, MessageSquare, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 type Comment = {
   user: string;
@@ -94,8 +95,9 @@ const initialProblems: Problem[] = [
 
 export default function ReportedIssuesPage() {
   const [problems, setProblems] = useState<Problem[]>(initialProblems);
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; type: string } | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const loggedInUser = sessionStorage.getItem('user');
@@ -108,6 +110,7 @@ export default function ReportedIssuesPage() {
     sessionStorage.removeItem('user');
     setUser(null);
     toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+    router.push('/');
   };
 
 
@@ -180,9 +183,16 @@ export default function ReportedIssuesPage() {
                 </DropdownMenuContent>
             </DropdownMenu>
             {user ? (
-              <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
-                Logout
-              </Button>
+              <>
+                {user.type === 'panchayat' && (
+                  <Button variant="link" className="text-primary-foreground text-lg" asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                )}
+                <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
             ) : (
               <Button variant="link" className="text-primary-foreground text-lg" asChild>
                 <Link href="/login">Login</Link>

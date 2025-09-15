@@ -31,7 +31,11 @@ export default function LoginPage() {
       description: `Welcome! You are logged in as a ${loginType}.`,
     });
     
-    router.push('/');
+    if (loginType === 'panchayat') {
+      router.push('/dashboard');
+    } else {
+      router.push('/');
+    }
   };
   
   return (
@@ -82,7 +86,7 @@ export default function LoginPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button type="submit" className="w-full">Login</Button>
+                <Button type="submit" className="w-full">Login to Dashboard</Button>
               </CardFooter>
             </form>
           </Card>

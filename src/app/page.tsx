@@ -324,7 +324,7 @@ const problemTitles = [
 ];
 
 
-function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.SetStateAction<Problem[]>>, user: {email: string} | null}) {
+function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.SetStateAction<Problem[]>>, user: { email: string; type: string } | null}) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -494,7 +494,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>('home');
   const [problems, setProblems] = useState<Problem[]>(initialProblems);
   const { toast } = useToast();
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; type: string } | null>(null);
 
   useEffect(() => {
     const loggedInUser = sessionStorage.getItem('user');
@@ -575,9 +575,16 @@ export default function Home() {
                 </DropdownMenuContent>
             </DropdownMenu>
           {user ? (
-            <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
-              Logout
-            </Button>
+            <>
+              {user.type === 'panchayat' && (
+                <Button variant="link" className="text-primary-foreground text-lg" asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+              )}
+              <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
           ) : (
             <Button variant="link" className="text-primary-foreground text-lg" asChild>
               <Link href="/login">Login</Link>
