@@ -596,7 +596,7 @@ export default function Home() {
           )}
            <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">
+                <Button variant="link" className="text-primary-foreground text-lg">
                   {language === 'en' ? 'English' : 'ಕನ್ನಡ'}
                   <ChevronDown className="h-4 w-4 ml-1" />
                 </Button>
