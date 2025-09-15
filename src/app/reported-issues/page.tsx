@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { StarRating } from '@/components/ui/star-rating';
 import { Calendar, MessageSquare, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
 
 type Comment = {
   user: string;
@@ -93,6 +94,22 @@ const initialProblems: Problem[] = [
 
 export default function ReportedIssuesPage() {
   const [problems, setProblems] = useState<Problem[]>(initialProblems);
+  const [user, setUser] = useState<{ email: string } | null>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setUser(null);
+    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+  };
+
 
   const handleFeedbackSubmit = (problemId: string, comment: string, rating: number) => {
     setProblems(prevProblems => prevProblems.map(p => {
@@ -162,9 +179,15 @@ export default function ReportedIssuesPage() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="link" className="text-primary-foreground text-lg" asChild>
+            {user ? (
+              <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button variant="link" className="text-primary-foreground text-lg" asChild>
                 <Link href="/login">Login</Link>
-            </Button>
+              </Button>
+            )}
         </nav>
       </header>
       

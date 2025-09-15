@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -15,6 +15,8 @@ import {
 import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/hooks/use-toast';
 import { isPast } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const allEvents = [
     {
@@ -65,10 +67,35 @@ export default function UpcomingEventsPage() {
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [rsvpedEvents, setRsvpedEvents] = useState<Set<number>>(new Set());
+  const [user, setUser] = useState<{ email: string } | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setUser(null);
+    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+  };
+
 
   const eventDates = allEvents.map(event => event.date);
 
   const handleRsvp = (eventId: number) => {
+    if (!user) {
+        toast({
+            variant: 'destructive',
+            title: 'Please Log In',
+            description: 'You need to be logged in to RSVP for an event.',
+            action: <Button onClick={() => router.push('/login')}>Login</Button>
+        });
+        return;
+    }
     setRsvpedEvents(prev => {
         const newSet = new Set(prev);
         if (newSet.has(eventId)) {
@@ -87,6 +114,36 @@ export default function UpcomingEventsPage() {
     : [];
 
   const isSelectedDateInPast = selectedDate ? isPast(selectedDate) && selectedDate.toDateString() !== new Date().toDateString() : false;
+
+  const RsvpButton = ({ eventId, isRsvped }: { eventId: number, isRsvped: boolean }) => {
+    const button = (
+        <Button 
+            className="w-full"
+            onClick={() => handleRsvp(eventId)}
+            variant={isRsvped ? 'secondary' : 'default'}
+            disabled={isSelectedDateInPast || !user}
+        >
+            {isSelectedDateInPast ? 'Event Ended' : (isRsvped ? 'Cancel RSVP' : 'RSVP')}
+        </Button>
+    );
+
+    if (!user && !isSelectedDateInPast) {
+        return (
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <div className="w-full">{button}</div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Please log in to RSVP</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+        );
+    }
+    return button;
+  };
+
 
   return (
     <div className="bg-background min-h-screen flex flex-col">
@@ -132,9 +189,15 @@ export default function UpcomingEventsPage() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="link" className="text-primary-foreground text-lg" asChild>
+             {user ? (
+              <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button variant="link" className="text-primary-foreground text-lg" asChild>
                 <Link href="/login">Login</Link>
-            </Button>
+              </Button>
+            )}
         </nav>
       </header>
       
@@ -182,14 +245,7 @@ export default function UpcomingEventsPage() {
                                         <p className="text-muted-foreground pt-2">{event.description}</p>
                                     </CardContent>
                                     <CardFooter>
-                                        <Button 
-                                            className="w-full"
-                                            onClick={() => handleRsvp(event.id)}
-                                            variant={isRsvped ? 'secondary' : 'default'}
-                                            disabled={isSelectedDateInPast}
-                                        >
-                                            {isSelectedDateInPast ? 'Event Ended' : (isRsvped ? 'Cancel RSVP' : 'RSVP')}
-                                        </Button>
+                                        <RsvpButton eventId={event.id} isRsvped={isRsvped} />
                                     </CardFooter>
                                 </Card>
                             );

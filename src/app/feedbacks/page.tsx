@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useState, useEffect } from 'react';
 
 const successStories = [
     {
@@ -45,6 +46,21 @@ const successStories = [
 
 export default function FeedbacksPage() {
   const { toast } = useToast();
+  const [user, setUser] = useState<{ email: string } | null>(null);
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setUser(null);
+    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+  };
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,9 +116,15 @@ export default function FeedbacksPage() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="link" className="text-primary-foreground text-lg" asChild>
+            {user ? (
+              <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button variant="link" className="text-primary-foreground text-lg" asChild>
                 <Link href="/login">Login</Link>
-            </Button>
+              </Button>
+            )}
         </nav>
       </header>
       

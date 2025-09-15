@@ -16,7 +16,7 @@ import { identifyProblemFromImage } from '@/ai/flows/identify-problem-from-image
 import { fileToDataUri } from '@/lib/utils';
 import { draftReportForPanchayat } from '@/ai/flows/draft-report-for-panchayat';
 import { ReportWizard } from '@/components/report-wizard';
-import { CheckCircle, Users, BarChart, ChevronDown, Eye, Calendar, MapPin } from 'lucide-react';
+import { CheckCircle, Users, BarChart, ChevronDown, Eye, Calendar, MapPin, LogIn } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { type ProblemStatus } from '@/components/ui/status-tracker';
 import { Badge } from '@/components/ui/badge';
+import { useRouter } from 'next/navigation';
 
 type Section = 'home' | 'issues';
 
@@ -323,14 +324,26 @@ const problemTitles = [
 ];
 
 
-function IssuesSection({setProblems}: {setProblems: React.Dispatch<React.SetStateAction<Problem[]>>}) {
+function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.SetStateAction<Problem[]>>, user: {email: string} | null}) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Required',
+        description: 'Please log in to report an issue.',
+        action: <Button onClick={() => router.push('/login')}>Login</Button>,
+      });
+      return;
+    }
+
     setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     const imageFile = formData.get('image') as File;
@@ -406,44 +419,61 @@ function IssuesSection({setProblems}: {setProblems: React.Dispatch<React.SetStat
     <section id="issues-section">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
         <div>
-          <Card className="h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
-            <CardHeader>
-              <CardTitle>Report a Problem</CardTitle>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                 <Select name="title" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Problem Title" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {problemTitles.map((title) => (
-                      <SelectItem key={title} value={title}>
-                        {title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Textarea name="description" placeholder="Describe the issue" required />
-                <Select name="panchayat" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your Panchayat" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {panchayats.map((panchayat) => (
-                      <SelectItem key={panchayat.id} value={panchayat.id}>
-                        {panchayat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Input type="file" name="image" accept="image/*" required />
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? loadingMessage : 'Submit'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+           {user ? (
+            <Card className="h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
+              <CardHeader>
+                <CardTitle>Report a Problem</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                  <Select name="title" required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Problem Title" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {problemTitles.map((title) => (
+                        <SelectItem key={title} value={title}>
+                          {title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Textarea name="description" placeholder="Describe the issue" required />
+                  <Select name="panchayat" required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your Panchayat" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {panchayats.map((panchayat) => (
+                        <SelectItem key={panchayat.id} value={panchayat.id}>
+                          {panchayat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Input type="file" name="image" accept="image/*" required />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? loadingMessage : 'Submit'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+           ) : (
+            <Card className="h-full flex flex-col items-center justify-center text-center p-8 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
+                <CardHeader>
+                  <LogIn className="mx-auto h-12 w-12 text-primary" />
+                  <CardTitle>Login to Report an Issue</CardTitle>
+                  <CardDescription>
+                    You need to be logged in to report problems and contribute to your community.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link href="/login">Login Now</Link>
+                  </Button>
+                </CardContent>
+            </Card>
+           )}
         </div>
         <div>
            <Card className="h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2">
@@ -463,13 +493,29 @@ function IssuesSection({setProblems}: {setProblems: React.Dispatch<React.SetStat
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>('home');
   const [problems, setProblems] = useState<Problem[]>(initialProblems);
+  const { toast } = useToast();
+  const [user, setUser] = useState<{ email: string } | null>(null);
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setUser(null);
+    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+  };
+
 
   const renderSection = () => {
     switch (activeSection) {
       case 'home':
         return <HomeSection onIssuesClick={handleIssuesClick} problems={problems} />;
       case 'issues':
-        return <IssuesSection setProblems={setProblems} />;
+        return <IssuesSection setProblems={setProblems} user={user} />;
       default:
         return <HomeSection onIssuesClick={handleIssuesClick} problems={problems} />;
     }
@@ -528,9 +574,15 @@ export default function Home() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-          <Button variant="link" className="text-primary-foreground text-lg" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
+          {user ? (
+            <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button variant="link" className="text-primary-foreground text-lg" asChild>
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
         </nav>
       </header>
 

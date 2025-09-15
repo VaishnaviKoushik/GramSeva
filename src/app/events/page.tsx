@@ -24,6 +24,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { useRouter } from 'next/navigation';
 
 // Mock data for event submissions. In a real app, this would be fetched from a database.
 const mockSubmissions: Submission[] = [];
@@ -119,9 +120,36 @@ export default function EventsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formVisibleForEvent, setFormVisibleForEvent] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const [user, setUser] = useState<{ email: string } | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setUser(null);
+    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+  };
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+     if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Required',
+        description: 'Please log in to submit an event entry.',
+        action: <Button onClick={() => router.push('/login')}>Login</Button>,
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
@@ -219,9 +247,15 @@ export default function EventsPage() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="link" className="text-primary-foreground text-lg" asChild>
+            {user ? (
+              <Button variant="link" className="text-primary-foreground text-lg" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button variant="link" className="text-primary-foreground text-lg" asChild>
                 <Link href="/login">Login</Link>
-            </Button>
+              </Button>
+            )}
         </nav>
       </header>
       

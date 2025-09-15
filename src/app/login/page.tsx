@@ -8,26 +8,30 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 type LoginType = 'citizen' | 'panchayat';
 
 export default function LoginPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const [loginType, setLoginType] = useState<LoginType>('citizen');
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email');
-    console.log(`Logging in as ${loginType} with email: ${email}`);
     
     // In a real app, you would handle authentication here.
+    // For now, we'll just simulate a successful login.
+    sessionStorage.setItem('user', JSON.stringify({ email, type: loginType }));
+
     toast({
       title: 'Login Successful',
       description: `Welcome! You are logged in as a ${loginType}.`,
     });
     
-    // Redirect user after login, e.g., router.push('/dashboard')
+    router.push('/');
   };
   
   return (
