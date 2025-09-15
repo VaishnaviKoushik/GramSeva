@@ -142,6 +142,9 @@ export default function ReportedIssuesPage() {
                 <DropdownMenuItem asChild>
                   <Link href="/feedbacks">Feedbacks</Link>
                 </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/rise-ahead">Rise Ahead</Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
@@ -282,5 +285,3 @@ function FeedbackForm({ problemId, onSubmit }: { problemId: string, onSubmit: (p
         </form>
     );
 }
-
-    

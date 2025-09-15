@@ -80,6 +80,9 @@ export default function FeedbacksPage() {
                 <DropdownMenuItem asChild>
                   <Link href="/feedbacks">Feedbacks</Link>
                 </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/rise-ahead">Rise Ahead</Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>

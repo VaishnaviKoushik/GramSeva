@@ -232,7 +232,7 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-16">
         <h2 className="text-center text-3xl font-bold text-primary mb-4">Rise Ahead</h2>
         <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-8">
           Explore national initiatives and schemes designed to empower and uplift rural communities. Participate, contribute, and be a part of India's growth story.
@@ -250,6 +250,11 @@ function HomeSection({ onIssuesClick, problems }: { onIssuesClick: (issueId?: st
               </Card>
             </a>
           ))}
+        </div>
+        <div className="text-center mt-8">
+            <Button asChild>
+                <Link href="/rise-ahead">Learn More</Link>
+            </Button>
         </div>
       </div>
 
@@ -496,6 +501,9 @@ export default function Home() {
               <DropdownMenuItem asChild>
                 <Link href="/feedbacks">Feedbacks</Link>
               </DropdownMenuItem>
+               <DropdownMenuItem asChild>
+                  <Link href="/rise-ahead">Rise Ahead</Link>
+                </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
             <DropdownMenu>
