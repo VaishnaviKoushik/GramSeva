@@ -28,6 +28,7 @@ import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import { LanguageContext } from '@/context/language-context';
 import { translations } from '@/lib/translations';
+import { VoiceReporter } from '@/components/voice-reporter';
 
 type Section = 'home' | 'issues';
 
@@ -330,8 +331,13 @@ function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.S
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [description, setDescription] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
+
+  const handleVoiceResult = (transcript: string) => {
+    setDescription(transcript);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -350,7 +356,7 @@ function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.S
     const formData = new FormData(e.currentTarget);
     const imageFile = formData.get('image') as File;
     const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
+    const descriptionValue = formData.get('description') as string;
     const panchayatId = formData.get('panchayat') as string;
     const panchayat = panchayats.find(p => p.id === panchayatId);
     
@@ -374,7 +380,7 @@ function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.S
       const newProblem: Problem = {
         _id: new Date().toISOString(),
         title,
-        description,
+        description: descriptionValue,
         imageUrl: photoDataUri,
         aiResult: `AI Identified as: ${problemCategory}`,
         suggestedMeasures,
@@ -387,7 +393,7 @@ function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.S
       const { report } = await draftReportForPanchayat({
         photoDataUri,
         problemCategory,
-        problemDescription: description,
+        problemDescription: descriptionValue,
         panchayatName: panchayat.name
       });
       
@@ -404,6 +410,7 @@ function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.S
       });
       
       formRef.current?.reset();
+      setDescription('');
     } catch (err) {
       toast({
         variant: 'destructive',
@@ -440,7 +447,16 @@ function IssuesSection({setProblems, user}: {setProblems: React.Dispatch<React.S
                       ))}
                     </SelectContent>
                   </Select>
-                  <Textarea name="description" placeholder="Describe the issue" required />
+                  <div className="relative">
+                    <Textarea 
+                      name="description" 
+                      placeholder="Describe the issue or use the microphone to speak" 
+                      required 
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                     <VoiceReporter onResult={handleVoiceResult} />
+                  </div>
                   <Select name="panchayat" required>
                     <SelectTrigger>
                       <SelectValue placeholder="Select your Panchayat" />
