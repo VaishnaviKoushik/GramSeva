@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/hooks/use-toast';
+import { isPast } from 'date-fns';
 
-const upcomingEvents = [
+const allEvents = [
     {
       id: 1,
       title: 'Plantation Drive',
-      date: new Date('2025-08-15'),
+      date: new Date('2024-07-15'),
       location: 'Village Community Hall',
       description: 'Join us in planting 100 new saplings to make our village greener and celebrate Independence Day.',
     },
@@ -40,7 +41,7 @@ const upcomingEvents = [
     {
       id: 4,
       title: 'Free Health Check-up Camp',
-      date: new Date('2025-09-15'),
+      date: new Date('2024-06-15'),
       location: 'Primary Health Centre',
       description: 'A free health camp for all villagers, with specialist doctors for consultation.',
     },
@@ -65,7 +66,7 @@ export default function UpcomingEventsPage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [rsvpedEvents, setRsvpedEvents] = useState<Set<number>>(new Set());
 
-  const eventDates = upcomingEvents.map(event => event.date);
+  const eventDates = allEvents.map(event => event.date);
 
   const handleRsvp = (eventId: number) => {
     setRsvpedEvents(prev => {
@@ -82,8 +83,10 @@ export default function UpcomingEventsPage() {
   };
 
   const filteredEvents = selectedDate
-    ? upcomingEvents.filter(event => event.date.toDateString() === selectedDate.toDateString())
+    ? allEvents.filter(event => event.date.toDateString() === selectedDate.toDateString())
     : [];
+
+  const isSelectedDateInPast = selectedDate ? isPast(selectedDate) && selectedDate.toDateString() !== new Date().toDateString() : false;
 
   return (
     <div className="bg-background min-h-screen flex flex-col">
@@ -138,7 +141,7 @@ export default function UpcomingEventsPage() {
       <main className="p-5 flex-grow">
         <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold text-primary">Upcoming Community Events</h1>
+                <h1 className="text-4xl font-bold text-primary">Community Events</h1>
                 <p className="text-muted-foreground mt-2">
                     Get involved in local initiatives. Participate, connect with your neighbors, and help build a stronger community.
                 </p>
@@ -183,8 +186,9 @@ export default function UpcomingEventsPage() {
                                             className="w-full"
                                             onClick={() => handleRsvp(event.id)}
                                             variant={isRsvped ? 'secondary' : 'default'}
+                                            disabled={isSelectedDateInPast}
                                         >
-                                            {isRsvped ? 'Cancel RSVP' : 'RSVP'}
+                                            {isSelectedDateInPast ? 'Event Ended' : (isRsvped ? 'Cancel RSVP' : 'RSVP')}
                                         </Button>
                                     </CardFooter>
                                 </Card>
